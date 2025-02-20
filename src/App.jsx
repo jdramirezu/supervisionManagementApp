@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import Login from "./login/Login.jsx"
-import StaffList from "./staffList/StaffList.jsx"
 import Viewport from './viewport/Viewport.jsx';
+import Filters from './filters/Filters.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
+      <h1 className='text-slate-100 text-6xl text-center pt-4'>Department Team</h1>
+      <Filters />
       {/* <Login /> */}
       <Viewport />
     </>
