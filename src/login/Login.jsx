@@ -4,7 +4,7 @@ const Login = () =>{
     return (
             <>
                 <div className="flex items-center justify-center min-h-screen">
-                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 shadow-xl sm:mx-auto sm:w-full sm:max-w-md rounded-xl bg-slate-600">
+                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md rounded-xl bg-slate-600">
                         <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                             <img
                                 alt="icon"

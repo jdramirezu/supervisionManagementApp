@@ -1,0 +1,19 @@
+import React from "react";
+import Card from "../card/Card.jsx";
+
+const StaffList = () =>{
+    return(
+        <>
+            <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
+                <Card name={"John Doe"} id={"00123456"} status={"Active"} contract={"Part time"} area={"ESL"}/>
+                <Card name={"Peter Smith"} id={"00123846"} status={"Active"} contract={"Full time"} area={"ESL"}/>
+                <Card name={"Karol Boyle"} id={"00184344"} status={"Inactive"} contract={"Full time"} area={"ESL"}/>
+                <Card name={"Susan Bones"} id={"00246848"} status={"Active"} contract={"Part time"} area={"ESL"}/>
+                <Card name={"Michael Green"} id={"00354655"} status={"Inactive"} contract={"Full time"} area={"ESL"}/>
+                <Card name={"Michelle Matthews"} id={"00213514"} status={"Inactive"} contract={"Part time"} area={"ESL"}/>
+            </div>
+        </>
+    );
+}
+
+export default StaffList;
