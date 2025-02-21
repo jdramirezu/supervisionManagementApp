@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../card/Card.jsx";
+import Card from "./Card.jsx";
 
 const StaffList = () =>{
     return(
