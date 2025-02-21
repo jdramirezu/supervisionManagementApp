@@ -4,15 +4,19 @@ import Login from "./components/Login.jsx"
 import Viewport from './components/Viewport.jsx';
 import Filters from './components/Filters.jsx';
 import Actions from './components/Actions.jsx';
+import NewCandidate from './components/NewCandidate.jsx';
+import EmployeeInfo from './components/EmployeeInfo.jsx';
 
 function App() {
 
   return (
     <>
-      <Filters />
-      {/* <Login /> */}
+      {/* <Filters />
+      <Login />
       <Viewport />
       <Actions />
+      <NewCandidate /> */}
+      <EmployeeInfo />
     </>
   )
 }
