@@ -1,11 +1,13 @@
 import React from "react";
 import StaffList from "./StaffList.jsx";
 
-const Viewport = () =>{
-    return(
+const Viewport = ({employees}) =>{
+    // use a condition to load
+    return( !employees.length ?
+        <h1>Loading</h1> :
         <>
             <div className="overflow-y-scroll h-160 border-y border-solid border-white py-5">
-                <StaffList />
+                <StaffList employees={employees}/>
             </div>
         </>
     );
