@@ -1,10 +1,10 @@
 import React from "react";
-import Card from "../card/Card.jsx";
+import Card from "./Card.jsx";
 
 const StaffList = () =>{
     return(
         <>
-            <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
+            <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 lg:grid-cols-2 xl:grid-cols-3">
                 <Card name={"John Doe"} id={"00123456"} status={"Active"} contract={"Part time"} area={"Area 1"}/>
                 <Card name={"Peter Smith"} id={"00123846"} status={"Active"} contract={"Full time"} area={"Area 3"}/>
                 <Card name={"Karol Boyle"} id={"00184344"} status={"Inactive"} contract={"Full time"} area={"Area 2"}/>

@@ -27,10 +27,11 @@ const Filters = () => {
     const [selected, setSelected] = useState(people[0]);
 
     return(
-        <>
+        <> 
+            <h1 className='text-slate-100 text-6xl text-center pt-4'>Department Team</h1>
             <Listbox value={selected} onChange={setSelected}>
                 <Label className="block text-3xl font-medium text-slate-100 text-center">Area</Label>
-                <div className="relative mt-2 flex items-center justify-center pb-6">
+                <div className="relative mt-2 flex items-center justify-center pb-2">
                     <ListboxButton className="grid cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                         <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">
                             <img alt="" src={selected.avatar} className="size-5 shrink-0 rounded-full" />
@@ -65,6 +66,17 @@ const Filters = () => {
                     </ListboxOptions>
                 </div>
             </Listbox>
+            
+            <div className="mt-2 flex items-center justify-center pb-3">
+                <input 
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Search"
+                    className="block w-128 rounded-md bg-white px-3 py-1.5 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"    
+                    >
+                </input>
+            </div>
         </>
     );
 }
