@@ -1,21 +1,29 @@
 import React from 'react';
+import { useEmployee } from '../contexts/EmployeeContext';
 
-const Card = ({ name, id, area, status, contract, employeeID }) =>{
+const Card = ({ employee, onRouteChange }) =>{
+    const {onEmployeeClick} = useEmployee();
     return (
         <>
-            <div className="">
+            <div className="transition delay-150 duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                onClick={ () => {
+                    onEmployeeClick(employee);
+                    onRouteChange("edit");
+                }
+                }>
                 <div className="grid justify-items-center bg-slate-600 rounded-xl py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md">
                     {
-                        employeeID ==="N/A" ?
-                            <img src={`https://robohash.org/${id}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/> :
-                            <img src={`https://robohash.org/${employeeID}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
+                        employee.employeeID ==="N/A" ?
+                            <img src={`https://robohash.org/${employee.id}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
+                            :
+                            <img src={`https://robohash.org/${employee.employeeID}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
                     }
                     <div className='text-neutral-100 grid grid-cols-4 grid-rows-3 px-auto mt-6'>
-                        <h2 className='col-span-4 col-start-1 underline decoration-4 text-2xl text-center'>{name}</h2>
-                        <p className='italic proportional-nums col-span-4 col-start-1 font-light text-center'>{employeeID}</p>
-                        <p className='col-span-1 text-center'>{area}</p>
-                        <p className='col-span-2 text-center italic'>{status}</p>
-                        <p className='col-span-1 col-end-5 text-right'>{contract}</p>
+                        <h2 className='col-span-4 col-start-1 underline decoration-4 text-2xl text-center'>{employee.fullName}</h2>
+                        <p className='italic proportional-nums col-span-4 col-start-1 font-light text-center'>{employee.employeeID}</p>
+                        <p className='col-span-1 text-center'>{employee.area}</p>
+                        <p className='col-span-2 text-center italic'>{employee.status}</p>
+                        <p className='col-span-1 col-end-5 text-right'>{employee.contractType}</p>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
 import { UserCircleIcon,DocumentArrowUpIcon } from '@heroicons/react/24/solid';
 
-const NewCandidate = () => {
+const NewCandidate = ({onRouteChange}) => {
     return(
         <>
             <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
@@ -10,7 +10,7 @@ const NewCandidate = () => {
                     <h2 className="text-4xl font-semibold tracking-tight text-balance text-neutral-100 sm:text-5xl">New Candidate</h2>
                     <p className="mt-2 text-lg/8 text-neutral-300">Enter the info for the possible new staff member.</p>
                 </div>
-                <form action="#" method="POST" className="mx-auto mt-10 max-w-xl sm:mt-20">
+                <div className="mx-auto mt-10 max-w-xl sm:mt-20">
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                         <div>
                             <label htmlFor="first-name" className="block text-sm/6 font-semibold text-neutral-100">
@@ -246,13 +246,14 @@ const NewCandidate = () => {
                     </div>
                     <div className="mt-10">
                         <button
+                            onClick={() => onRouteChange("viewport")}
                             type="submit"
                             className="block w-full rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Save
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </>
     );

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Login = () =>{
+const Login = ({ onRouteChange }) =>{
     return (
             <>
                 <div className="flex items-center justify-center min-h-screen">
@@ -8,7 +8,7 @@ const Login = () =>{
                         <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                             <img
                                 alt="icon"
-                                src="../../public/icons8-boss-64.png"
+                                src="../../icons8-boss-64.png"
                                 className="mx-auto h-20 w-auto"
                             />
                             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-neutral-100">
@@ -40,6 +40,7 @@ const Login = () =>{
                             <div className="mt-10">
                                 <button
                                     type="submit"
+                                    onClick={() => onRouteChange("viewport")}
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
                                     Log in
