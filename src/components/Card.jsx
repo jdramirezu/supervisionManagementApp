@@ -1,14 +1,14 @@
 import React from 'react';
 import { useEmployee } from '../contexts/EmployeeContext';
 
-const Card = ({ employee, onRouteChange }) =>{
-    const {onEmployeeClick} = useEmployee();
+const Card = ({ employee }) =>{
+    const {onEmployeeClick, onRouteChange} = useEmployee();
     return (
         <>
             <div className="transition delay-150 duration-300 ease-in-out hover:scale-110 cursor-pointer"
                 onClick={ () => {
                     onEmployeeClick(employee);
-                    onRouteChange("edit");
+                    onRouteChange("view");
                 }
                 }>
                 <div className="grid justify-items-center bg-slate-600 rounded-xl py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md">

@@ -1,7 +1,9 @@
 import React from "react";
 import Card from "./Card.jsx";
+import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
-const StaffList = ({ employees, onRouteChange }) =>{
+const StaffList = () =>{
+    const { employees } = useEmployee();
     return( !employees.length ?
         <h1>Loading</h1> :
         <>
@@ -12,7 +14,6 @@ const StaffList = ({ employees, onRouteChange }) =>{
                             <Card
                                 key={employee.id}
                                 employee={employee}
-                                onRouteChange={onRouteChange}
                             />
                         );
                     })
