@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DocumentArrowDownIcon } from '@heroicons/react/24/solid';
 import { useEmployee } from '../contexts/EmployeeContext.jsx';
+import DeleteConfirmation from "./DeleteConfirmation.jsx";
 
 const EmployeeInfo = () => {
-    const {selectedEmployee, onRouteChange} = useEmployee();
+    const {selectedEmployee, onEmployeeClick} = useEmployee();
+    const [isModalOpen,setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
     
     return(
         <>
@@ -135,26 +139,32 @@ const EmployeeInfo = () => {
                     </div>
                     <div className="mt-10 grid grid-cols-5">
                         <button
-                            onClick={() => onRouteChange("edit")}
+                            onClick={() => navigate('/edit')}
                             type=""
                             className="col-span-1 col-start-1 flex justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Edit
                         </button>
                         <button
-                            onClick={() => onRouteChange("delete")}
+                            onClick={() => {
+                                setIsModalOpen(true);
+                            }}
                             type=""
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Delete
                         </button>
                         <button
-                            onClick={() => onRouteChange("viewport")}
+                            onClick={() => {
+                                navigate('/employees')
+                                onEmployeeClick(null)
+                            }}
                             type=""
                             className="col-span-1 col-start-5 rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Accept
                         </button>
+                        <DeleteConfirmation isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onConfirm={() => setIsModalOpen(false)} />
                     </div>
                 </div>
             </div>

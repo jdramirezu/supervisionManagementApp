@@ -1,10 +1,10 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
 import { UserCircleIcon,DocumentArrowUpIcon } from '@heroicons/react/24/solid';
-import { useEmployee } from "../contexts/EmployeeContext";
 
 const NewCandidate = () => {
-    const { onRouteChange } = useEmployee();
+    const navigate = useNavigate();
     return(
         <>
             <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
@@ -248,14 +248,14 @@ const NewCandidate = () => {
                     </div>
                     <div className="mt-10 grid grid-cols-3">
                         <button
-                            onClick={() => onRouteChange("viewport")}
+                            onClick={() => navigate('/employees')}
                             type="submit"
                             className="col-span-1 col-start-1 rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Save
                         </button>
                         <button
-                            onClick={() => onRouteChange("viewport")}
+                            onClick={() => navigate('/employees')}
                             type=""
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >

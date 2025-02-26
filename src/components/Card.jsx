@@ -1,14 +1,15 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { useEmployee } from '../contexts/EmployeeContext';
 
 const Card = ({ employee }) =>{
-    const {onEmployeeClick, onRouteChange} = useEmployee();
+    const {onEmployeeClick} = useEmployee();
+    const navigate = useNavigate();
     return (
         <>
             <div className="transition delay-150 duration-300 ease-in-out hover:scale-110 cursor-pointer"
                 onClick={ () => {
                     onEmployeeClick(employee);
-                    onRouteChange("view");
                 }
                 }>
                 <div className="grid justify-items-center bg-slate-600 rounded-xl py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md">
