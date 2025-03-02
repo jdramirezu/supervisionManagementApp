@@ -1,20 +1,15 @@
 import React from "react";
 import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
-const Login = () =>{
-    const { onRouteChange } = useEmployee();
+const DeleteConfirmation = () =>{
+    const { onRouteChange, selectedEmployee } = useEmployee();
     return (
             <>
                 <div className="flex items-center justify-center min-h-screen">
                     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md rounded-xl bg-slate-600">
                         <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-                            <img
-                                alt="icon"
-                                src="../../icons8-boss-64.png"
-                                className="mx-auto h-20 w-auto"
-                            />
                             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-neutral-100">
-                                SUPERVISOR ACCESS
+                                {`DELETE ALL INFO FOR ${selectedEmployee.fullName}?`}
                             </h2>
                             <label htmlFor="email" className="block text-base font-medium text-neutral-100 mt-5">Email</label>
                             <div className="mt-2">
@@ -43,9 +38,9 @@ const Login = () =>{
                                 <button
                                     type="submit"
                                     onClick={() => onRouteChange("viewport")}
-                                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    className="flex w-full justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
-                                    Log in
+                                    DELETE
                                 </button>
                             </div>
                         </div>
@@ -55,4 +50,4 @@ const Login = () =>{
         );
 }
 
-export default Login;
+export default DeleteConfirmation;

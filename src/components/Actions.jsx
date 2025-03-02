@@ -1,9 +1,11 @@
 import React from "react";
+import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
-const Actions = ({ onRouteChange }) =>{
+const Actions = () =>{
+    const { onRouteChange } = useEmployee();
     return(
         <>
-            <div className="my-5 grid grid-cols-9 px-10">
+            <div className="my-5 grid grid-cols-5 px-10">
                 <button
                     onClick={() => onRouteChange("newCandidate")}
                     type=""
@@ -11,7 +13,7 @@ const Actions = ({ onRouteChange }) =>{
                 >
                     New Candidate
                 </button>
-                <button
+                {/* <button
                     onClick={() => onRouteChange("edit")}
                     type=""
                     className="col-span-1 col-start-4 flex justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -23,11 +25,11 @@ const Actions = ({ onRouteChange }) =>{
                     className="col-span-1 col-start-6 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                     Delete
-                </button>
+                </button> */}
                 <button
                     onClick={() => onRouteChange("login")}
                     type=""
-                    className="col-span-1 col-start-8 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="col-span-1 col-start-4 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                     Exit
                 </button>
