@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
 import { UserCircleIcon,DocumentArrowUpIcon } from '@heroicons/react/24/solid';
 import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
 const EmployeeEdit = () =>{
-    const { onRouteChange, selectedEmployee, updateEmployee } = useEmployee();
+    const { selectedEmployee, updateEmployee } = useEmployee();
     const [editedEmployee , setEditedEmployee] = useState(selectedEmployee);
+    const navigate = useNavigate();
 
     const handleChange = (field, value) =>{
         setEditedEmployee( prev => ({...prev, [field]:value}));
@@ -265,7 +267,8 @@ const EmployeeEdit = () =>{
                     <div className="mt-10 grid grid-cols-3">
                         <button
                             onClick={() => {
-                                onRouteChange("viewport");
+                                navigate('/employees');
+                                onEmployeeClick(null);
                                 // handleSave();
                             }}
                             type="submit"
@@ -274,7 +277,10 @@ const EmployeeEdit = () =>{
                             Save
                         </button>
                         <button
-                            onClick={() => onRouteChange("viewport")}
+                            onClick={() => {
+                                navigate('/employees');
+                                onEmployeeClick(null)
+                            }}
                             type=""
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >

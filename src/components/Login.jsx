@@ -1,8 +1,8 @@
 import React from "react";
-import { useEmployee } from "../contexts/EmployeeContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Login = () =>{
-    const { onRouteChange } = useEmployee();
+    const navigate = useNavigate();
     return (
             <>
                 <div className="flex items-center justify-center min-h-screen">
@@ -42,7 +42,7 @@ const Login = () =>{
                             <div className="mt-10">
                                 <button
                                     type="submit"
-                                    onClick={() => onRouteChange("viewport")}
+                                    onClick={() => navigate(`/employees`)}
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
                                     Log in
