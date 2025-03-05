@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useEmployee } from '../contexts/EmployeeContext.jsx';
 
 const Login = () =>{
+    const { onEmailChange, onPasswordChange, onLoginSubmit, route } = useEmployee();
     const navigate = useNavigate();
     return (
             <>
@@ -22,8 +24,9 @@ const Login = () =>{
                                     type="email"
                                     id="email"
                                     name="email"
+                                    onChange={onEmailChange}
                                     required
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"    
+                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"    
                                 >
                                 </input>
                             </div>
@@ -34,15 +37,18 @@ const Login = () =>{
                                     type="password"
                                     id="password"
                                     name="password"
+                                    onChange={onPasswordChange}
                                     required
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
                                 </input>
                             </div>
                             <div className="mt-10">
                                 <button
                                     type="submit"
-                                    onClick={() => navigate(`/employees`)}
+                                    onClick={() => {
+                                        onLoginSubmit(navigate);
+                                    }}
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
                                     Log in

@@ -1,14 +1,15 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const cors  = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-
-const soloUser = ({fullname, preferredName, email, employeeID, phoneNumber, status, area, contractType, stage, availability, comments}) => {
+const soloUser = ({fullName, preferredName, email, employeeID, phoneNumber, status, area, contractType, stage, availability, comments}) => {
     const user = {
         id: '15',
-        fullName: fullname,
+        fullName: fullName,
         preferredName: preferredName,
         email: email,
         employeeID: employeeID,
@@ -29,32 +30,44 @@ const usersDB = [
         name: "John Doe",
         email: "jd@email.com",
         role: "admin",
-        password: "cookies"
+        hash: "$2b$10$T1OhMTWI6ADADgiZER9hRuKWUec5Iy.Uti9aQGJL6sHvgNcOlkhxS"
     },
     {
         id: '2',
         name: "Steven Green",
         email: "sg@email.com",
         role: "viewer",
-        password: "bananas"
+        hash: "$2b$10$626rKyY7aKCWezgOQ2lwqeOv0mhI8xcVjPV4CpqZp3INKUoZCnz1y"
     }
 ];
 
-app.get('/', (req,res) =>{
-    res.send("getting root");
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+app.use(cors());
+
+app.get('/', (req,res) => {
+    res.send(usersDB);
 });
 
 app.post("/login",(req,res) =>{
-    if(req.body.email === usersDB[0].email &&
-        req.body.password === usersDB[0].password){
-            res.json("logging in");
+    if(req.body.email === usersDB[0].email && (bcrypt.compareSync(req.body.password, usersDB[0].hash))
+    ){
+        res.json("success");
     } else {
         res.status(400).json("Log in failed");
     }
 });
 
 app.get("/profiles", (req, res) =>{
-    res.json(usersDB);
+    const infoLocation = path.join(__dirname, "../public/data.json");
+
+    fs.readFile(infoLocation, "utf8", (err,data)=>{
+        if(err){
+            res.status(500).json("Internal error in server: ",err);
+        }
+        const employees = JSON.parse(data);
+        res.json(employees);
+    })
 });
 
 app.post("/newCandidate", (req,res) =>{
@@ -112,13 +125,3 @@ app.delete('/profile/:id', (req,res) =>{
 app.listen(3000, () =>{
     console.log("app running on port 3000");
 });
-
-/*
-/ --> res = getting root    ----- DONE -----
-/login --> POST = success/fail  ----- DONE -----
-/profiles --> GET = returns profiles with limited actions based on user role    ----- DONE -----
-/newCandidate --> POST = creates new candidate  ----- DONE -----
-/profile/:id --> GET = returns a specific candidate ----- DONE -----
-/profile/:id --> PUT = modifies the selected profile    ----- DONE -----
-/profile/:id -- DELETE = deletes the selected profile
-*/
