@@ -140,7 +140,7 @@ const EmployeeInfo = () => {
                     <div className="mt-10 grid grid-cols-5">
                         <button
                             onClick={() => navigate('/edit')}
-                            type=""
+                            type="button"
                             className="col-span-1 col-start-1 flex justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Edit
@@ -149,7 +149,7 @@ const EmployeeInfo = () => {
                             onClick={() => {
                                 setIsModalOpen(true);
                             }}
-                            type=""
+                            type="button"
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Delete
@@ -159,7 +159,7 @@ const EmployeeInfo = () => {
                                 navigate('/employees')
                                 onEmployeeClick(null)
                             }}
-                            type=""
+                            type="button"
                             className="col-span-1 col-start-5 rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Accept

@@ -41,7 +41,15 @@ export const EmployeeProvider = ({ children }) => {
     }
 
     const onEmployeeClick = employee => {
-        setSelectedEmployee(employee);
+        if(!employee){
+            setSelectedEmployee(null);
+        } else{
+            fetch(`http://localhost:3000/profile/${employee.id}`)
+            .then(resp => resp.json())
+            .then(data =>{
+                setSelectedEmployee(data);
+            })
+        }
     }
 
     const onEmailChange = event =>{

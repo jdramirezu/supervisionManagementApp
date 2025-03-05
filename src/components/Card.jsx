@@ -1,10 +1,9 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
 import { useEmployee } from '../contexts/EmployeeContext';
 
 const Card = ({ employee }) =>{
     const {onEmployeeClick} = useEmployee();
-    const navigate = useNavigate();
+
     return (
         <>
             <div className="transition delay-150 duration-300 ease-in-out hover:scale-110 cursor-pointer"

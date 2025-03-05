@@ -24,6 +24,8 @@ const soloUser = ({fullName, preferredName, email, employeeID, phoneNumber, stat
     return user;
 }
 
+const infoLocation = path.join(__dirname, "../public/data.json");
+
 const usersDB = [
     {
         id: '1',
@@ -59,7 +61,6 @@ app.post("/login",(req,res) =>{
 });
 
 app.get("/profiles", (req, res) =>{
-    const infoLocation = path.join(__dirname, "../public/data.json");
 
     fs.readFile(infoLocation, "utf8", (err,data)=>{
         if(err){
@@ -78,17 +79,18 @@ app.post("/newCandidate", (req,res) =>{
 
 app.get("/profile/:id", (req, res) =>{
     const { id } = req.params;
-    let found = false;
-    usersDB.forEach(user => {
-        if (user.id === id){
-            found = true;
-            return res.json(user);
+    fs.readFile(infoLocation, "utf8", (err,data)=>{
+        if (err){
+            res.status(500).json("Internal error in server: ",err);
         }
-    }) 
-        
-    if (!found) {
-        res.status(404).json("User not found");
-    }
+
+        const staff = JSON.parse(data);
+        staff.forEach(user => {
+            if (user.id == id){
+                return res.json(user);
+            }
+        })
+    })
 });
 
 app.put('/profile/:id', (req,res) =>{
