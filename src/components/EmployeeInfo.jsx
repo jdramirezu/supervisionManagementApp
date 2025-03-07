@@ -13,8 +13,8 @@ const EmployeeInfo = () => {
         <>
             <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
-                    <h2 className="text-4xl font-semibold tracking-tight text-balance text-neutral-100 sm:text-5xl">{selectedEmployee.preferredName}</h2>
-                    <p className="mt-2 text-lg/8 text-neutral-300">{`Current information about ${selectedEmployee.fullName} also known as ${selectedEmployee.preferredName}.`}</p>
+                    <h2 className="text-4xl font-semibold tracking-tight text-balance text-neutral-100 sm:text-5xl">{selectedEmployee.preferredname}</h2>
+                    <p className="mt-2 text-lg/8 text-neutral-300">{`Current information about ${selectedEmployee.fullname} also known as ${selectedEmployee.preferredname}.`}</p>
                 </div>
                 <div className="mx-auto mt-10 max-w-xl sm:mt-20">
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -24,7 +24,7 @@ const EmployeeInfo = () => {
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             >
-                                {selectedEmployee.fullName}
+                                {selectedEmployee.fullname}
                             </p>
                         </div>
                         <div>
@@ -32,7 +32,7 @@ const EmployeeInfo = () => {
                                 Preferred name
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-                            >{selectedEmployee.preferredName}
+                            >{selectedEmployee.preferredname}
                             </p>
                         </div>
                         <div className="sm:col-span-1">
@@ -48,7 +48,7 @@ const EmployeeInfo = () => {
                                 Employer ID
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-                            >{selectedEmployee.employeeID}
+                            >{selectedEmployee.employerid}
                             </p>
                         </div>
                         <div className="sm:col-span-1">
@@ -56,7 +56,7 @@ const EmployeeInfo = () => {
                                 Phone number
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
-                                {selectedEmployee.phoneNumber}
+                                {selectedEmployee.phonenumber}
                             </p>
                         </div>
                         <div className="sm:col-span-1">
@@ -72,7 +72,7 @@ const EmployeeInfo = () => {
                                 Area
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
-                                {selectedEmployee.area}
+                                {selectedEmployee.workarea}
                             </p>
                         </div>
                         <div className="sm:col-span-1">
@@ -80,7 +80,7 @@ const EmployeeInfo = () => {
                                 Contract Type
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
-                                {selectedEmployee.contractType}
+                                {selectedEmployee.contracttype}
                             </p>
                         </div>
                         <div className="col-span-1">
@@ -88,7 +88,7 @@ const EmployeeInfo = () => {
                                 Photo
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
-                                <img src={`https://robohash.org/${selectedEmployee.employeeID}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
+                                <img src={`https://robohash.org/${selectedEmployee.employerid}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
                             </div>
                         </div>
                         <div className="sm:col-span-1">
@@ -133,7 +133,7 @@ const EmployeeInfo = () => {
                                 Comments
                             </label>
                             <p className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
-                                {selectedEmployee.comments}
+                                {selectedEmployee.observations}
                             </p>
                         </div>
                     </div>

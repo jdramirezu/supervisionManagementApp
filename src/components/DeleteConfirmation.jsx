@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
 const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
-    const { selectedEmployee, onEmployeeClick } = useEmployee();
+    const { selectedEmployee, onEmployeeClick, deleteEmployee } = useEmployee();
     const navigate = useNavigate();
 
     if (!isOpen) return null;
@@ -14,7 +14,7 @@ const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
                     <div className="flex flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md rounded-xl bg-slate-600">
                         <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-neutral-100">
-                                {`DELETE ALL INFO FOR ${selectedEmployee.fullName}?`}
+                                {`DELETE ALL INFO FOR ${selectedEmployee.fullname}?`}
                             </h2>
                             <label htmlFor="email" className="block text-base font-medium text-neutral-100 mt-5">Email</label>
                             <div className="mt-2">
@@ -41,17 +41,18 @@ const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
                             </div>
                             <div className="mt-10">
                                 <button
-                                    type="submit"
+                                    type="button"
                                     onClick={() => {
                                         navigate('/employees');
                                         onEmployeeClick(null);
                                         onConfirm();
+                                        deleteEmployee(selectedEmployee);
                                     }}
                                     className="flex w-full justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
                                     DELETE
                                 </button><button
-                                    type="submit"
+                                    type="button"
                                     onClick={() => {
                                         onClose();
                                     }}

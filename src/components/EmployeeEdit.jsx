@@ -5,7 +5,7 @@ import { UserCircleIcon,DocumentArrowUpIcon } from '@heroicons/react/24/solid';
 import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
 const EmployeeEdit = () =>{
-    const { selectedEmployee, updateEmployee } = useEmployee();
+    const { selectedEmployee, updateEmployee, onEmployeeClick } = useEmployee();
     const [editedEmployee , setEditedEmployee] = useState(selectedEmployee);
     const navigate = useNavigate();
 
@@ -21,20 +21,20 @@ const EmployeeEdit = () =>{
         <>
             <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
-                    <h2 className="text-4xl font-semibold tracking-tight text-balance text-neutral-100 sm:text-5xl">{selectedEmployee.preferredName}</h2>
+                    <h2 className="text-4xl font-semibold tracking-tight text-balance text-neutral-100 sm:text-5xl">{selectedEmployee.preferredname}</h2>
                     <p className="mt-2 text-lg/8 text-neutral-300">Enter the info for the possible new staff member.</p>
                 </div>
                 <div className="mx-auto mt-10 max-w-xl sm:mt-20">
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                         <div>
-                            <label htmlFor="fullName" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="fullname" className="block text-sm/6 font-semibold text-neutral-100">
                             Full name
                             </label>
                             <div className="mt-2.5">
                             <input
-                                id="fullName"
-                                name="fullName"
-                                value={editedEmployee.fullName}
+                                id="fullname"
+                                name="fullname"
+                                value={editedEmployee.fullname}
                                 onChange={(e) => handleChange("fullName",e.target.value)}
                                 type="text"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
@@ -42,15 +42,15 @@ const EmployeeEdit = () =>{
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="preferredName" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="preferredname" className="block text-sm/6 font-semibold text-neutral-100">
                             Preferred name
                             </label>
                             <div className="mt-2.5">
                             <input
-                                id="preferredName"
-                                name="preferredName"
-                                value={editedEmployee.preferredName}
-                                onChange={(e) => handleChange("preferredName",e.target.value)}
+                                id="preferredname"
+                                name="preferredname"
+                                value={editedEmployee.preferredname}
+                                onChange={(e) => handleChange("preferredname",e.target.value)}
                                 type="text"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
@@ -72,32 +72,32 @@ const EmployeeEdit = () =>{
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="employeeID" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="employerid" className="block text-sm/6 font-semibold text-neutral-100">
                             Employee ID
                             </label>
                             <div className="mt-2.5">
                             <input
-                                id="employeeID"
-                                name="employeeID"
+                                id="employerid"
+                                name="employerid"
                                 type="text"
-                                value={editedEmployee.employeeID}
-                                onChange={(e) => handleChange("employeeID",e.target.value)}
+                                value={editedEmployee.employerid}
+                                onChange={(e) => handleChange("employerid",e.target.value)}
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="phoneNumber" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="phonenumber" className="block text-sm/6 font-semibold text-neutral-100">
                             Phone number
                             </label>
                             <div className="mt-2.5">
                                 <div className="flex rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                                     <input
-                                    id="phoneNumber"
-                                    name="phoneNumber"
+                                    id="phonenumber"
+                                    name="phonenumber"
                                     type="text"
-                                    value={editedEmployee.phoneNumber}
-                                    onChange={(e) => handleChange("phoneNumber",e.target.value)}
+                                    value={editedEmployee.phonenumber}
+                                    onChange={(e) => handleChange("phonenumber",e.target.value)}
                                     className="block min-w-0 grow py-2 pr-3 pl-1 text-base text-neutral-700 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                                     />
                                 </div>
@@ -125,20 +125,20 @@ const EmployeeEdit = () =>{
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="area" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="workarea" className="block text-sm/6 font-semibold text-neutral-100">
                             Area
                             </label>
                             <div className="mt-2 rounded-md grid shrink-0 grid-cols-1 focus-within:relative outline-1 -outline-offset-1 outline-gray-300 bg-white">
                                 <select
-                                    id="area"
-                                    name="area"
-                                    value={editedEmployee.area}
-                                    onChange={(e) => handleChange("area",e.target.value)}
+                                    id="workarea"
+                                    name="workarea"
+                                    value={editedEmployee.workarea}
+                                    onChange={(e) => handleChange("workarea",e.target.value)}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
-                                    <option value={"Area 1"}>Area 1</option>
-                                    <option value={"Area 2"}>Area 2</option>
-                                    <option value={"Area 3"}>Area 3</option>
+                                    <option value={"Area1"}>Area 1</option>
+                                    <option value={"Area2"}>Area 2</option>
+                                    <option value={"Area3"}>Area 3</option>
                                 </select>
                                 <ChevronDownIcon
                                     aria-hidden="true"
@@ -147,15 +147,15 @@ const EmployeeEdit = () =>{
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="contractType" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="contracttype" className="block text-sm/6 font-semibold text-neutral-100">
                             Contract Type
                             </label>
                             <div className="mt-2 rounded-md grid shrink-0 grid-cols-1 focus-within:relative outline-1 -outline-offset-1 outline-gray-300 bg-white">
                                 <select
-                                    id="contractType"
-                                    name="contractType"
-                                    value={editedEmployee.contractType}
-                                    onChange={(e) => handleChange("contractType",e.target.value)}
+                                    id="contracttype"
+                                    name="contracttype"
+                                    value={editedEmployee.contracttype}
+                                    onChange={(e) => handleChange("contracttype",e.target.value)}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
                                     <option value={"Full time"}>Full time</option>
@@ -249,17 +249,17 @@ const EmployeeEdit = () =>{
                             </div>
                         
                         <div className="sm:col-span-2">
-                            <label htmlFor="comments" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="observations" className="block text-sm/6 font-semibold text-neutral-100">
                             Comments
                             </label>
                             <div className="mt-2.5">
                                 <textarea
-                                    id="comments"
-                                    name="comments"
+                                    id="observations"
+                                    name="observations"
                                     rows={4}
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-                                    value={editedEmployee.comments}
-                                    onChange={(e) => handleChange("comments",e.target.value)}
+                                    value={editedEmployee.observations}
+                                    onChange={(e) => handleChange("observations",e.target.value)}
                                 />
                             </div>
                         </div>
@@ -269,7 +269,7 @@ const EmployeeEdit = () =>{
                             onClick={() => {
                                 navigate('/employees');
                                 onEmployeeClick(null);
-                                // handleSave();
+                                handleSave();
                             }}
                             type="submit"
                             className="col-span-1 col-start-1 rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -281,7 +281,7 @@ const EmployeeEdit = () =>{
                                 navigate('/employees');
                                 onEmployeeClick(null)
                             }}
-                            type=""
+                            type="button"
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Cancel

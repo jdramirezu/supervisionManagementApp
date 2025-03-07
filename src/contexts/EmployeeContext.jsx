@@ -32,12 +32,11 @@ export const EmployeeProvider = ({ children }) => {
     },[]);
 
     const updateEmployee = (updatedEmpInfo) => {
-        setEmployees( oldEmpInfo => {
-            oldEmpInfo.map( emp => {
-                emp.id === updatedEmpInfo.id ? updatedEmpInfo : emp
-            });
-        });
-        setSelectedEmployee(updatedEmpInfo);
+        fetch(`http://localhost:3000/profile/${updatedEmpInfo.id}`,{
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updatedEmpInfo)
+        })
     }
 
     const onEmployeeClick = employee => {
@@ -97,6 +96,14 @@ export const EmployeeProvider = ({ children }) => {
         });
     }
 
+    const deleteEmployee = employee =>{
+        fetch(`http://localhost:3000/profile/${employee.id}`,{
+            method: 'delete',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(employee)
+        });
+    }
+
     return (
         <EmployeeContext.Provider value={
             {
@@ -110,7 +117,8 @@ export const EmployeeProvider = ({ children }) => {
                 onLoginSubmit,
                 onCandidateSave,
                 onDataChange,
-                newCandidateData
+                newCandidateData,
+                deleteEmployee
             }}>
             {children}
         </EmployeeContext.Provider>
