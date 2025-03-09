@@ -10,7 +10,6 @@ export const EmployeeProvider = ({ children }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [refresh, setRefresh] = useState(false);
     const [searchField, setSearchField] = useState('');
-    // const [area, setArea] = useState("");
     const [newCandidateData, setNewCandidateData] = useState({
         fullname: "",
         preferredname: "",
@@ -24,22 +23,7 @@ export const EmployeeProvider = ({ children }) => {
         availability: "",
         observations: ""
     });
-    const areas = [{
-        id: 0,
-        name: "Whole Department",
-    },
-    {
-        id: 1,
-        name: "Area1",
-    },
-    {
-        id: 2,
-        name: "Area2",
-    },
-    {
-        id:3,
-        name:"Area3"
-    }];
+    const [area, setArea] = useState("");
 
     useEffect (() =>{
         fetch("http://localhost:3000/profiles")
@@ -54,13 +38,16 @@ export const EmployeeProvider = ({ children }) => {
         setSearchField(event.target.value);
     }
 
-    const filteredStaffByName = employees.filter(employee =>{
-        return employee.fullname.toLowerCase().includes(searchField.toLowerCase());
+    const onAreaChange = event =>{
+        setArea(event);
+    }
+
+    const filteredStaff = employees.filter(employee =>{
+        const filteredNames = employee.fullname.toLowerCase().includes(searchField.toLowerCase());
+        const filteredArea = area === "" || employee.workarea === area;
+
+        return filteredNames && filteredArea;
     });
-    
-    // const filteredStaffByArea = employees.filter(areaEmployees =>{
-    //     return areaEmployees.workarea.includes(area);
-    // });
     
     const updateEmployee = (updatedEmpInfo) => {
         fetch(`http://localhost:3000/profile/${updatedEmpInfo.id}`,{
@@ -161,8 +148,12 @@ export const EmployeeProvider = ({ children }) => {
         <EmployeeContext.Provider value={
             {
                 selectedEmployee,
-                onEmployeeClick,
                 employees,
+                newCandidateData,
+                errorMessage,
+                filteredStaff,
+                area,
+                onEmployeeClick,
                 setSelectedEmployee,
                 updateEmployee,
                 onEmailChange,
@@ -170,12 +161,9 @@ export const EmployeeProvider = ({ children }) => {
                 onLoginSubmit,
                 onCandidateSave,
                 onDataChange,
-                newCandidateData,
                 deleteEmployee,
-                errorMessage,
                 onSearchInfo,
-                filteredStaffByName,
-                areas
+                onAreaChange,
             }}>
             {children}
         </EmployeeContext.Provider>
