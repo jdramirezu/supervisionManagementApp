@@ -1,45 +1,19 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const cors  = require('cors');
-const fs = require('fs');
-const path = require('path');
+const knex = require('knex');
 
 const app = express();
 
-const soloUser = ({fullName, preferredName, email, employeeID, phoneNumber, status, area, contractType, stage, availability, comments}) => {
-    const user = {
-        id: '15',
-        fullName: fullName,
-        preferredName: preferredName,
-        email: email,
-        employeeID: employeeID,
-        phoneNumber: phoneNumber,
-        status: status,
-        area: area,
-        contractType: contractType,
-        stage: stage,
-        availability: availability,
-        comments: comments
+const smaDB = knex({
+    client: 'pg',
+    connection: {
+        host: "127.0.0.1",
+        user: "postgres",
+        password: "", //Change to environment variable
+        database: "supervisionManagementApp"
     }
-    return user;
-}
-
-const usersDB = [
-    {
-        id: '1',
-        name: "John Doe",
-        email: "jd@email.com",
-        role: "admin",
-        hash: "$2b$10$T1OhMTWI6ADADgiZER9hRuKWUec5Iy.Uti9aQGJL6sHvgNcOlkhxS"
-    },
-    {
-        id: '2',
-        name: "Steven Green",
-        email: "sg@email.com",
-        role: "viewer",
-        hash: "$2b$10$626rKyY7aKCWezgOQ2lwqeOv0mhI8xcVjPV4CpqZp3INKUoZCnz1y"
-    }
-];
+})
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -50,76 +24,75 @@ app.get('/', (req,res) => {
 });
 
 app.post("/login",(req,res) =>{
-    if(req.body.email === usersDB[0].email && (bcrypt.compareSync(req.body.password, usersDB[0].hash))
-    ){
-        res.json("success");
-    } else {
-        res.status(400).json("Log in failed");
-    }
+    const {email, password} = req.body;
+    smaDB.select('*').from('users').where({email})
+    .then(data =>{
+        if(bcrypt.compareSync(password, data[0].passwordhash)){
+            res.json("success");
+        } else {
+            res.status(401).json("Invalid credentials");
+        }
+    }).catch(err =>{
+        res.status(500).json({err: "Server error"})
+    });
 });
 
 app.get("/profiles", (req, res) =>{
-    const infoLocation = path.join(__dirname, "../public/data.json");
-
-    fs.readFile(infoLocation, "utf8", (err,data)=>{
-        if(err){
-            res.status(500).json("Internal error in server: ",err);
-        }
-        const employees = JSON.parse(data);
-        res.json(employees);
-    })
+    smaDB.select("*").from("staff").then(data =>{
+        res.json(data);
+    });
 });
 
 app.post("/newCandidate", (req,res) =>{
-    const newUser = soloUser(req.body);
-    usersDB.push(newUser);
-    res.json(usersDB);
+    const {fullname, preferredname, email, employerid, phonenumber, status, workarea, contracttype, stage, availability, observations} = req.body;
+    
+    smaDB("staff").insert({
+        fullname: fullname,
+        preferredname: preferredname,
+        email: email,
+        employerid: employerid,
+        phonenumber: phonenumber,
+        status: status,
+        workarea: workarea,
+        contracttype: contracttype,
+        stage: stage,
+        availability: availability,
+        observations: observations
+    }).then(data => res.json(data));
 })
 
 app.get("/profile/:id", (req, res) =>{
     const { id } = req.params;
-    let found = false;
-    usersDB.forEach(user => {
-        if (user.id === id){
-            found = true;
-            return res.json(user);
-        }
-    }) 
-        
-    if (!found) {
-        res.status(404).json("User not found");
-    }
+    smaDB.select("*").from("staff").where({id}).then(data =>{
+        res.json(data[0]);
+    });
 });
 
 app.put('/profile/:id', (req,res) =>{
-    const {id} = req.params;
-    const userMod = soloUser(req.body);
-    let found = false;
-    usersDB.forEach((user,i) =>{
-        if(user.id === id){
-            found = true;
-            usersDB[i] = userMod;
-            return res.json(usersDB);
-        }
-    });
-    if (!found){
-        res.status(404).json("User not modified");
-    }
+    const { id } = req.params;
+    const {fullname, preferredname, email, employerid, phonenumber, status, area, contracttype, stage, availability, observations} = req.body;
+    
+    smaDB.from('staff').where({id}).update({
+        fullname: fullname,
+        preferredname: preferredname,
+        email: email,
+        employerid: employerid,
+        phonenumber: phonenumber,
+        status: status,
+        workarea: area,
+        contracttype: contracttype,
+        stage: stage,
+        availability: availability,
+        observations: observations
+    }).then(data => res.json(data));
 });
 
 app.delete('/profile/:id', (req,res) =>{
     const {id} = req.params;
-    let found = false;
-    usersDB.forEach((user,i) =>{
-        if (user.id === id){
-            found = true;
-            usersDB.splice(i,1);
-            return res.json(usersDB);
-        }
-    });
-    if (!found){
-        res.status(404).json("doesn't exist");
-    }
+
+    smaDB.from('staff').where({id}).del()
+    .then(response => res.json(response));
+
 });
 
 app.listen(3000, () =>{

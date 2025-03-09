@@ -7,20 +7,23 @@ export const EmployeeProvider = ({ children }) => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
+    const [refresh, setRefresh] = useState(false);
+    const [searchField, setSearchField] = useState('');
     const [newCandidateData, setNewCandidateData] = useState({
-        id: '15',
-        fullName: "",
-        preferredName: "",
+        fullname: "",
+        preferredname: "",
         email: "",
-        employeeID: "",
-        phoneNumber: "",
+        employerid: "",
+        phonenumber: "",
         status: "",
-        area: "",
-        contractType: "",
+        workarea: "",
+        contracttype: "",
         stage: "",
         availability: "",
-        comments: ""
-    })
+        observations: ""
+    });
+    const [area, setArea] = useState("");
 
     useEffect (() =>{
         fetch("http://localhost:3000/profiles")
@@ -29,19 +32,45 @@ export const EmployeeProvider = ({ children }) => {
           setEmployees(info);
         })
         .catch(err => console.log("Error fetching employees in front: ", err));
-    },[]);
+    },[refresh]);
 
+    const onSearchInfo = event =>{
+        setSearchField(event.target.value);
+    }
+
+    const onAreaChange = event =>{
+        setArea(event);
+    }
+
+    const filteredStaff = employees.filter(employee =>{
+        const filteredNames = employee.fullname.toLowerCase().includes(searchField.toLowerCase());
+        const filteredArea = area === "" || employee.workarea === area;
+
+        return filteredNames && filteredArea;
+    });
+    
     const updateEmployee = (updatedEmpInfo) => {
-        setEmployees( oldEmpInfo => {
-            oldEmpInfo.map( emp => {
-                emp.id === updatedEmpInfo.id ? updatedEmpInfo : emp
-            });
-        });
-        setSelectedEmployee(updatedEmpInfo);
+        fetch(`http://localhost:3000/profile/${updatedEmpInfo.id}`,{
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updatedEmpInfo)
+        }).then( resp =>{
+            setRefresh(prev => !prev);
+            resp.json();
+        })
     }
 
     const onEmployeeClick = employee => {
-        setSelectedEmployee(employee);
+
+        if(!employee){
+            setSelectedEmployee(null);
+        } else{
+            fetch(`http://localhost:3000/profile/${employee.id}`)
+            .then(resp => resp.json())
+            .then(data =>{
+                setSelectedEmployee(data);
+            })
+        }
     }
 
     const onEmailChange = event =>{
@@ -63,9 +92,16 @@ export const EmployeeProvider = ({ children }) => {
         })
         .then(resp => resp.json())
         .then(data =>{
-            if(data === "success"){
-                navigate("/employees");
-            } 
+            if(data != "success"){
+                throw new Error ("WRONG CREDENTIALS");
+            }
+            navigate("/employees");
+
+            // if(data === "success"){
+            //     navigate("/employees");
+            // } 
+        }).catch(err =>{
+            setErrorMessage(err.message);
         })
     }
 
@@ -75,26 +111,49 @@ export const EmployeeProvider = ({ children }) => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(newCandidateData)
         })
-        .then(resp => resp.json())
-        .then(data =>{
-            console.log(data);
+        .then(resp => {
+            setRefresh(prev => !prev);
+            resp.json();
             navigate("/employees");
-        
         })
     }
 
     const onDataChange = (event) =>{
-        setNewCandidateData({
-            ...newCandidateData, [event.target.name]:event.target.value
-        });
+        const {multiple, selectedOptions}=event.target;
+
+        if(multiple){
+            const values = Array.from(selectedOptions, option => option.value);
+            setNewCandidateData({
+                ...newCandidateData,[event.target.name]:values
+            });
+        } else{
+            setNewCandidateData({
+                ...newCandidateData, [event.target.name]:event.target.value
+            });
+        }
+    }
+
+    const deleteEmployee = employee =>{
+        fetch(`http://localhost:3000/profile/${employee.id}`,{
+            method: 'delete',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(employee)
+        }).then( resp =>{
+            setRefresh(prev => !prev);
+            resp.json();
+        })
     }
 
     return (
         <EmployeeContext.Provider value={
             {
                 selectedEmployee,
-                onEmployeeClick,
                 employees,
+                newCandidateData,
+                errorMessage,
+                filteredStaff,
+                area,
+                onEmployeeClick,
                 setSelectedEmployee,
                 updateEmployee,
                 onEmailChange,
@@ -102,7 +161,9 @@ export const EmployeeProvider = ({ children }) => {
                 onLoginSubmit,
                 onCandidateSave,
                 onDataChange,
-                newCandidateData
+                deleteEmployee,
+                onSearchInfo,
+                onAreaChange,
             }}>
             {children}
         </EmployeeContext.Provider>

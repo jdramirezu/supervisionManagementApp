@@ -7,6 +7,7 @@ import { useEmployee } from '../contexts/EmployeeContext';
 const NewCandidate = () => {
     const navigate = useNavigate();
     const { onCandidateSave, onDataChange, newCandidateData } = useEmployee();
+
     return(
         <>
             <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
@@ -17,31 +18,31 @@ const NewCandidate = () => {
                 <div className="mx-auto mt-10 max-w-xl sm:mt-20">
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                         <div>
-                            <label htmlFor="fullName" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="fullname" className="block text-sm/6 font-semibold text-neutral-100">
                             Full name
                             </label>
                             <div className="mt-2.5">
                             <input
-                                id="fullName"
-                                name="fullName"
+                                id="fullname"
+                                name="fullname"
                                 type="text"
                                 onChange={onDataChange}
-                                autoComplete="given-name"
+                                autoComplete="fullname"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="preferredName" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="preferredname" className="block text-sm/6 font-semibold text-neutral-100">
                             Preferred name
                             </label>
                             <div className="mt-2.5">
                             <input
-                                id="preferredName"
-                                name="preferredName"
+                                id="preferredname"
+                                name="preferredname"
                                 type="text"
                                 onChange={onDataChange}
-                                autoComplete="preferredName"
+                                autoComplete="preferredname"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
                             </div>
@@ -62,29 +63,29 @@ const NewCandidate = () => {
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="employeeID" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="employerid" className="block text-sm/6 font-semibold text-neutral-100">
                             Employer ID
                             </label>
                             <div className="mt-2.5">
                             <input
-                                id="employeeID"
-                                name="employeeID"
+                                id="employerid"
+                                name="employerid"
                                 type="text"
                                 onChange={onDataChange}
-                                autoComplete="employeeID"
+                                autoComplete="employerid"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="phoneNumber" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="phonenumber" className="block text-sm/6 font-semibold text-neutral-100">
                             Phone number
                             </label>
                             <div className="mt-2.5">
                                 <div className="flex rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                                     <input
-                                    id="phoneNumber"
-                                    name="phoneNumber"
+                                    id="phonenumber"
+                                    name="phonenumber"
                                     type="text"
                                     onChange={onDataChange}
                                     placeholder="123-456-7890"
@@ -101,11 +102,13 @@ const NewCandidate = () => {
                                 <select
                                     id="status"
                                     name="status"
+                                    value={newCandidateData.status}
                                     onChange={onDataChange}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
-                                    <option>Active</option>
-                                    <option>Inactive</option>
+                                    <option value={""} disabled>Select one</option>
+                                    <option value={"Active"}>Active</option>
+                                    <option value={"Inactive"}>Inactive</option>
                                 </select>
                                 <ChevronDownIcon
                                     aria-hidden="true"
@@ -114,19 +117,21 @@ const NewCandidate = () => {
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="area" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="workarea" className="block text-sm/6 font-semibold text-neutral-100">
                             Area
                             </label>
                             <div className="mt-2 rounded-md grid shrink-0 grid-cols-1 focus-within:relative outline-1 -outline-offset-1 outline-gray-300 bg-white">
                                 <select
-                                    id="area"
-                                    name="area"
+                                    id="workarea"
+                                    name="workarea"
+                                    value={newCandidateData.workarea}
                                     onChange={onDataChange}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
-                                    <option>Area 1</option>
-                                    <option>Area 2</option>
-                                    <option>Area 3</option>
+                                    <option value={''} disabled>Select one</option>
+                                    <option value={'Area1'}>Area1</option>
+                                    <option value={'Area2'}>Area2</option>
+                                    <option value={'Area3'}>Area3</option>
                                 </select>
                                 <ChevronDownIcon
                                     aria-hidden="true"
@@ -135,18 +140,20 @@ const NewCandidate = () => {
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="contractType" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="contracttype" className="block text-sm/6 font-semibold text-neutral-100">
                             Contract Type
                             </label>
                             <div className="mt-2 rounded-md grid shrink-0 grid-cols-1 focus-within:relative outline-1 -outline-offset-1 outline-gray-300 bg-white">
                                 <select
-                                    id="contractType"
-                                    name="contractType"
+                                    id="contracttype"
+                                    name="contracttype"
+                                    value={newCandidateData.contracttype}
                                     onChange={onDataChange}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
-                                    <option>Full time</option>
-                                    <option>Part time</option>
+                                    <option value={""} disabled>Select one</option>
+                                    <option value={"Full time"}>Full time</option>
+                                    <option value={"Part time"}>Part time</option>
                                 </select>
                                 <ChevronDownIcon
                                     aria-hidden="true"
@@ -180,14 +187,14 @@ const NewCandidate = () => {
                                         onChange={onDataChange}
                                         className="bg-white col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     >
-                                        <option>07:00-08:20</option>
-                                        <option>08:30-09:50</option>
-                                        <option>10:00-11:20</option>
-                                        <option>11:30-12:50</option>
-                                        <option>13:00-14:20</option>
-                                        <option>14:30-15:50</option>
-                                        <option>16:00-17:20</option>
-                                        <option>17:30-18:50</option>
+                                        <option value={"07:00-08:20"}>07:00-08:20</option>
+                                        <option value={"08:30-09:50"}>08:30-09:50</option>
+                                        <option value={"10:00-11:20"}>10:00-11:20</option>
+                                        <option value={"11:30-12:50"}>11:30-12:50</option>
+                                        <option value={"13:00-14:20"}>13:00-14:20</option>
+                                        <option value={"14:30-15:50"}>14:30-15:50</option>
+                                        <option value={"16:00-17:20"}>16:00-17:20</option>
+                                        <option value={"17:30-18:50"}>17:30-18:50</option>
                                     </select>
                                     <ChevronDownIcon
                                         aria-hidden="true"
@@ -218,13 +225,15 @@ const NewCandidate = () => {
                                     <select
                                         id="stage"
                                         name="stage"
+                                        value={newCandidateData.stage}
                                         onChange={onDataChange}
                                         className="bg-white col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     >
-                                        <option>Applied</option>
-                                        <option>Interview</option>
-                                        <option>Accepted</option>
-                                        <option>Rejected</option>
+                                        <option value={""} disabled>Select one</option>
+                                        <option value={"Applied"}>Applied</option>
+                                        <option value={"Interview"}>Interview</option>
+                                        <option value={"Accepted"}>Accepted</option>
+                                        <option value={"Rejected"}>Rejected</option>
                                     </select>
                                     <ChevronDownIcon
                                         aria-hidden="true"
@@ -234,13 +243,13 @@ const NewCandidate = () => {
                             </div>
                         
                         <div className="sm:col-span-2">
-                            <label htmlFor="comments" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="observations" className="block text-sm/6 font-semibold text-neutral-100">
                             Comments
                             </label>
                             <div className="mt-2.5">
                                 <textarea
-                                    id="comments"
-                                    name="comments"
+                                    id="observations"
+                                    name="observations"
                                     rows={4}
                                     onChange={onDataChange}
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
@@ -253,7 +262,12 @@ const NewCandidate = () => {
                         <button
                             onClick={() => onCandidateSave(navigate, newCandidateData)}
                             type="submit"
-                            className="col-span-1 col-start-1 rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            disabled={!newCandidateData.workarea ||
+                                !newCandidateData.status ||
+                                !newCandidateData.stage ||
+                                !newCandidateData.contracttype
+                            }
+                            className={`col-span-1 col-start-1 rounded-md ${!newCandidateData.workarea || !newCandidateData.status || !newCandidateData.stage || !newCandidateData.contracttype ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600"} px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                         >
                             Save
                         </button>
