@@ -1,8 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const cors  = require('cors');
-const fs = require('fs');
-const path = require('path');
 const knex = require('knex');
 
 const app = express();
@@ -32,8 +30,10 @@ app.post("/login",(req,res) =>{
         if(bcrypt.compareSync(password, data[0].passwordhash)){
             res.json("success");
         } else {
-            res.status(400).json("Log in failed");
+            res.status(401).json("Invalid credentials");
         }
+    }).catch(err =>{
+        res.status(500).json({err: "Server error"})
     });
 });
 
@@ -44,7 +44,7 @@ app.get("/profiles", (req, res) =>{
 });
 
 app.post("/newCandidate", (req,res) =>{
-    const {fullname, preferredname, email, employerid, phonenumber, status, area, contracttype, stage, availability, observations} = req.body;
+    const {fullname, preferredname, email, employerid, phonenumber, status, workarea, contracttype, stage, availability, observations} = req.body;
     
     smaDB("staff").insert({
         fullname: fullname,
@@ -53,10 +53,10 @@ app.post("/newCandidate", (req,res) =>{
         employerid: employerid,
         phonenumber: phonenumber,
         status: status,
-        workarea: area,
+        workarea: workarea,
         contracttype: contracttype,
         stage: stage,
-        availability: '{"'+availability+'"}',
+        availability: availability,
         observations: observations
     }).then(data => res.json(data));
 })
@@ -82,7 +82,7 @@ app.put('/profile/:id', (req,res) =>{
         workarea: area,
         contracttype: contracttype,
         stage: stage,
-        availability: '{"'+availability+'"}',
+        availability: availability,
         observations: observations
     }).then(data => res.json(data));
 });
@@ -90,7 +90,8 @@ app.put('/profile/:id', (req,res) =>{
 app.delete('/profile/:id', (req,res) =>{
     const {id} = req.params;
 
-    smaDB.from('staff').where({id}).del();
+    smaDB.from('staff').where({id}).del()
+    .then(response => res.json(response));
 
 });
 

@@ -9,8 +9,18 @@ const EmployeeEdit = () =>{
     const [editedEmployee , setEditedEmployee] = useState(selectedEmployee);
     const navigate = useNavigate();
 
-    const handleChange = (field, value) =>{
-        setEditedEmployee( prev => ({...prev, [field]:value}));
+    const handleChange = (event) =>{
+        const { name, value, multiple, selectedOptions} = event.target;
+
+        if(multiple){
+            const values = Array.from(selectedOptions, option => option.value);
+            setEditedEmployee({
+                ...editedEmployee,[name]:values
+            });
+        } else{
+            setEditedEmployee({
+                ...editedEmployee,[name]:value})
+        }
     }
 
     const handleSave = () =>{
@@ -35,7 +45,7 @@ const EmployeeEdit = () =>{
                                 id="fullname"
                                 name="fullname"
                                 value={editedEmployee.fullname}
-                                onChange={(e) => handleChange("fullName",e.target.value)}
+                                onChange={handleChange}
                                 type="text"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
@@ -50,7 +60,7 @@ const EmployeeEdit = () =>{
                                 id="preferredname"
                                 name="preferredname"
                                 value={editedEmployee.preferredname}
-                                onChange={(e) => handleChange("preferredname",e.target.value)}
+                                onChange={handleChange}
                                 type="text"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
@@ -65,7 +75,7 @@ const EmployeeEdit = () =>{
                                 id="email"
                                 name="email"
                                 value={editedEmployee.email}
-                                onChange={(e) => handleChange("email",e.target.value)}
+                                onChange={handleChange}
                                 type="email"
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
@@ -81,7 +91,7 @@ const EmployeeEdit = () =>{
                                 name="employerid"
                                 type="text"
                                 value={editedEmployee.employerid}
-                                onChange={(e) => handleChange("employerid",e.target.value)}
+                                onChange={handleChange}
                                 className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                             />
                             </div>
@@ -97,7 +107,7 @@ const EmployeeEdit = () =>{
                                     name="phonenumber"
                                     type="text"
                                     value={editedEmployee.phonenumber}
-                                    onChange={(e) => handleChange("phonenumber",e.target.value)}
+                                    onChange={handleChange}
                                     className="block min-w-0 grow py-2 pr-3 pl-1 text-base text-neutral-700 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                                     />
                                 </div>
@@ -112,11 +122,11 @@ const EmployeeEdit = () =>{
                                     id="status"
                                     name="status"
                                     value={editedEmployee.status}
-                                    onChange={(e) => handleChange("status",e.target.value)}
+                                    onChange={handleChange}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
-                                    <option value={"active"}>Active</option>
-                                    <option value={"inactive"}>Inactive</option>
+                                    <option value={"Active"}>Active</option>
+                                    <option value={"Inactive"}>Inactive</option>
                                 </select>
                                 <ChevronDownIcon
                                     aria-hidden="true"
@@ -133,7 +143,7 @@ const EmployeeEdit = () =>{
                                     id="workarea"
                                     name="workarea"
                                     value={editedEmployee.workarea}
-                                    onChange={(e) => handleChange("workarea",e.target.value)}
+                                    onChange={handleChange}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
                                     <option value={"Area1"}>Area 1</option>
@@ -155,7 +165,7 @@ const EmployeeEdit = () =>{
                                     id="contracttype"
                                     name="contracttype"
                                     value={editedEmployee.contracttype}
-                                    onChange={(e) => handleChange("contracttype",e.target.value)}
+                                    onChange={handleChange}
                                     className="col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                 >
                                     <option value={"Full time"}>Full time</option>
@@ -190,8 +200,8 @@ const EmployeeEdit = () =>{
                                         multiple
                                         id="availability"
                                         name="availability"
-                                        value={editedEmployee.availability}
-                                        onChange={(e) => handleChange("availability",e.target.value)}
+                                        value={editedEmployee.availability || []}
+                                        onChange={handleChange}
                                         className="bg-white col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     >
                                         <option value={"07:00-08:20"}>07:00-08:20</option>
@@ -233,7 +243,7 @@ const EmployeeEdit = () =>{
                                         id="stage"
                                         name="stage"
                                         value={editedEmployee.stage}
-                                        onChange={(e) => handleChange("stage",e.target.value)}
+                                        onChange={handleChange}
                                         className="bg-white col-start-1 row-start-1 w-full appearance-none rounded-md py-2 pr-7 pl-3.5 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     >
                                         <option value={"Applied"}>Applied</option>
@@ -259,7 +269,7 @@ const EmployeeEdit = () =>{
                                     rows={4}
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-neutral-700 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
                                     value={editedEmployee.observations}
-                                    onChange={(e) => handleChange("observations",e.target.value)}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </div>
@@ -267,9 +277,9 @@ const EmployeeEdit = () =>{
                     <div className="mt-10 grid grid-cols-3">
                         <button
                             onClick={() => {
-                                navigate('/employees');
-                                onEmployeeClick(null);
                                 handleSave();
+                                onEmployeeClick(null);
+                                navigate('/employees');
                             }}
                             type="submit"
                             className="col-span-1 col-start-1 rounded-md bg-indigo-600 px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -278,8 +288,8 @@ const EmployeeEdit = () =>{
                         </button>
                         <button
                             onClick={() => {
-                                navigate('/employees');
                                 onEmployeeClick(null)
+                                navigate('/employees');
                             }}
                             type="button"
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

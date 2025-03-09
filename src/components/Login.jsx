@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEmployee } from '../contexts/EmployeeContext.jsx';
 
 const Login = () =>{
-    const { onEmailChange, onPasswordChange, onLoginSubmit, route } = useEmployee();
+    const { onEmailChange, onPasswordChange, onLoginSubmit, errorMessage } = useEmployee();
     const navigate = useNavigate();
     return (
             <>
@@ -53,6 +53,7 @@ const Login = () =>{
                                 >
                                     Log in
                                 </button>
+                                <p className="text-red-500">{errorMessage}</p>
                             </div>
                         </div>
                     </div>

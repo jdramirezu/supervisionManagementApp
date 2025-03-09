@@ -43,10 +43,10 @@ const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        navigate('/employees');
-                                        onEmployeeClick(null);
-                                        onConfirm();
                                         deleteEmployee(selectedEmployee);
+                                        onEmployeeClick(null);
+                                        navigate('/employees');
+                                        onConfirm();
                                     }}
                                     className="flex w-full justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >

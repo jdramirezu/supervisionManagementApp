@@ -7,20 +7,39 @@ export const EmployeeProvider = ({ children }) => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
+    const [refresh, setRefresh] = useState(false);
+    const [searchField, setSearchField] = useState('');
+    // const [area, setArea] = useState("");
     const [newCandidateData, setNewCandidateData] = useState({
-        id: '15',
-        fullName: "",
-        preferredName: "",
+        fullname: "",
+        preferredname: "",
         email: "",
-        employeeID: "",
-        phoneNumber: "",
+        employerid: "",
+        phonenumber: "",
         status: "",
-        area: "",
-        contractType: "",
+        workarea: "",
+        contracttype: "",
         stage: "",
         availability: "",
-        comments: ""
-    })
+        observations: ""
+    });
+    const areas = [{
+        id: 0,
+        name: "Whole Department",
+    },
+    {
+        id: 1,
+        name: "Area1",
+    },
+    {
+        id: 2,
+        name: "Area2",
+    },
+    {
+        id:3,
+        name:"Area3"
+    }];
 
     useEffect (() =>{
         fetch("http://localhost:3000/profiles")
@@ -29,17 +48,33 @@ export const EmployeeProvider = ({ children }) => {
           setEmployees(info);
         })
         .catch(err => console.log("Error fetching employees in front: ", err));
-    },[]);
+    },[refresh]);
 
+    const onSearchInfo = event =>{
+        setSearchField(event.target.value);
+    }
+
+    const filteredStaffByName = employees.filter(employee =>{
+        return employee.fullname.toLowerCase().includes(searchField.toLowerCase());
+    });
+    
+    // const filteredStaffByArea = employees.filter(areaEmployees =>{
+    //     return areaEmployees.workarea.includes(area);
+    // });
+    
     const updateEmployee = (updatedEmpInfo) => {
         fetch(`http://localhost:3000/profile/${updatedEmpInfo.id}`,{
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(updatedEmpInfo)
+        }).then( resp =>{
+            setRefresh(prev => !prev);
+            resp.json();
         })
     }
 
     const onEmployeeClick = employee => {
+
         if(!employee){
             setSelectedEmployee(null);
         } else{
@@ -70,9 +105,16 @@ export const EmployeeProvider = ({ children }) => {
         })
         .then(resp => resp.json())
         .then(data =>{
-            if(data === "success"){
-                navigate("/employees");
-            } 
+            if(data != "success"){
+                throw new Error ("WRONG CREDENTIALS");
+            }
+            navigate("/employees");
+
+            // if(data === "success"){
+            //     navigate("/employees");
+            // } 
+        }).catch(err =>{
+            setErrorMessage(err.message);
         })
     }
 
@@ -82,18 +124,26 @@ export const EmployeeProvider = ({ children }) => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(newCandidateData)
         })
-        .then(resp => resp.json())
-        .then(data =>{
-            console.log(data);
+        .then(resp => {
+            setRefresh(prev => !prev);
+            resp.json();
             navigate("/employees");
-        
         })
     }
 
     const onDataChange = (event) =>{
-        setNewCandidateData({
-            ...newCandidateData, [event.target.name]:event.target.value
-        });
+        const {multiple, selectedOptions}=event.target;
+
+        if(multiple){
+            const values = Array.from(selectedOptions, option => option.value);
+            setNewCandidateData({
+                ...newCandidateData,[event.target.name]:values
+            });
+        } else{
+            setNewCandidateData({
+                ...newCandidateData, [event.target.name]:event.target.value
+            });
+        }
     }
 
     const deleteEmployee = employee =>{
@@ -101,7 +151,10 @@ export const EmployeeProvider = ({ children }) => {
             method: 'delete',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(employee)
-        });
+        }).then( resp =>{
+            setRefresh(prev => !prev);
+            resp.json();
+        })
     }
 
     return (
@@ -118,7 +171,11 @@ export const EmployeeProvider = ({ children }) => {
                 onCandidateSave,
                 onDataChange,
                 newCandidateData,
-                deleteEmployee
+                deleteEmployee,
+                errorMessage,
+                onSearchInfo,
+                filteredStaffByName,
+                areas
             }}>
             {children}
         </EmployeeContext.Provider>
