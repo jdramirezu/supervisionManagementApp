@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const cors  = require('cors');
 const knex = require('knex');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const app = express();
 
@@ -10,7 +12,7 @@ const smaDB = knex({
     connection: {
         host: "127.0.0.1",
         user: "postgres",
-        password: "", //Change to environment variable
+        password: process.env.JWT_DBPASSWORD, //Change to environment variable
         database: "supervisionManagementApp"
     }
 })
@@ -28,7 +30,12 @@ app.post("/login",(req,res) =>{
     smaDB.select('*').from('users').where({email})
     .then(data =>{
         if(bcrypt.compareSync(password, data[0].passwordhash)){
-            res.json("success");
+            
+            const payload = {id: data[0].id, role: data[0].role}
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'});
+
+            // res.json("success");
+            res.json({token, role:data[0].role});
         } else {
             res.status(401).json("Invalid credentials");
         }
@@ -38,7 +45,7 @@ app.post("/login",(req,res) =>{
 });
 
 app.get("/profiles", (req, res) =>{
-    smaDB.select("*").from("staff").then(data =>{
+    smaDB.select("*").from("staff").orderBy('id', 'asc').then(data =>{
         res.json(data);
     });
 });

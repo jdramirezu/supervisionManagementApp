@@ -5,7 +5,7 @@ import { useEmployee } from '../contexts/EmployeeContext.jsx';
 import DeleteConfirmation from "./DeleteConfirmation.jsx";
 
 const EmployeeInfo = () => {
-    const {selectedEmployee, onEmployeeClick} = useEmployee();
+    const {selectedEmployee, onEmployeeClick, userRole} = useEmployee();
     const [isModalOpen,setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     
@@ -141,18 +141,30 @@ const EmployeeInfo = () => {
                         <button
                             onClick={() => navigate('/edit')}
                             type="button"
-                            className="col-span-1 col-start-1 flex justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            disabled={userRole !== "Admin"}
+                            className={`col-span-1 col-start-1 flex justify-center rounded-md px-3 py-3 text-base font-semibold text-white
+                                        shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+                                        ${userRole === "Admin" ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-400 cursor-not-allowed"}`}
                         >
                             Edit
+                            <span className="absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 scale-0 rounded-md bg-gray-700 px-2 py-1 text-xs text-white transition-all group-hover:scale-100">
+                                Access Denied
+                            </span>
                         </button>
                         <button
                             onClick={() => {
                                 setIsModalOpen(true);
                             }}
                             type="button"
-                            className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            disabled={userRole !== "Admin"}
+                            className={`col-span-1 col-start-3 flex justify-center rounded-md px-3 py-3 text-base font-semibold text-white
+                                        shadow-xs  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+                                        ${userRole === "Admin" ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 cursor-not-allowed" }`}
                         >
                             Delete
+                            <span className="absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 scale-0 rounded-md bg-gray-700 px-2 py-1 text-xs text-white transition-all group-hover:scale-100">
+                                Access Denied
+                            </span>
                         </button>
                         <button
                             onClick={() => {
