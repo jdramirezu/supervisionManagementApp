@@ -19,8 +19,10 @@ export const EmployeeProvider = ({ children }) => {
         status: "",
         workarea: "",
         contracttype: "",
-        stage: "",
+        picture: null,
+        CV: null,
         availability: "",
+        stage: "",
         observations: ""
     });
     const [area, setArea] = useState("");
@@ -39,6 +41,9 @@ export const EmployeeProvider = ({ children }) => {
             setEmployees(info);
             })
             .catch(err => console.log("Error fetching employees in front: ", err));
+
+            console.log("refresh",refresh);
+            console.log("userRole",userRole);
         }
     },[refresh, token, userRole]);
 
@@ -100,7 +105,7 @@ export const EmployeeProvider = ({ children }) => {
         })
         .then(resp => resp.json())
         .then(data =>{
-            if(!data.token){     // data != "success"){
+            if(!data.token){
                 throw new Error ("WRONG CREDENTIALS");
             } else {
                 localStorage.setItem("token", data.token);
@@ -125,27 +130,42 @@ export const EmployeeProvider = ({ children }) => {
     }
 
     const onCandidateSave = (navigate, newCandidateData) =>{
+        const myFormData = new FormData();
+
+        Object.keys(newCandidateData).forEach(key =>{
+            if (key === "availability"){
+                myFormData.append(key, JSON.stringify(newCandidateData.availability));
+            } else {
+                myFormData.append(key, newCandidateData[key]);
+            }
+        });
+
         fetch("http://localhost:3000/newCandidate",{
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(newCandidateData)
+            // headers: {'Content-Type': 'application/json'},
+            // body: JSON.stringify(newCandidateData)
+            body: myFormData
         })
         .then(resp => {
             setRefresh(prev => !prev);
             resp.json();
             navigate("/employees");
-        })
+        }).catch( err => console.log("Upload error:", err) );
     }
 
-    const onDataChange = (event) =>{
-        const {multiple, selectedOptions}=event.target;
+    const onDataChange = (event) =>{ // added a new condition to handle files
+        const {multiple, selectedOptions, id}=event.target;
 
         if(multiple){
             const values = Array.from(selectedOptions, option => option.value);
             setNewCandidateData({
                 ...newCandidateData,[event.target.name]:values
             });
-        } else{
+        } else if(id === 'picture' || id === 'CV'){
+            setNewCandidateData({
+                ...newCandidateData, [event.target.name]: event.target.files[0]
+            });
+        } else {
             setNewCandidateData({
                 ...newCandidateData, [event.target.name]:event.target.value
             });

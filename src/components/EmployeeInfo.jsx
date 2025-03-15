@@ -84,15 +84,15 @@ const EmployeeInfo = () => {
                             </p>
                         </div>
                         <div className="col-span-1">
-                            <label htmlFor="photo" className="block text-sm/6 font-medium text-neutral-100">
+                            <label htmlFor="picture" className="block text-sm/6 font-medium text-neutral-100">
                                 Photo
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
-                                <img src={`https://robohash.org/${selectedEmployee.employerid}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
+                                <img src={selectedEmployee.picture ? `http://localhost:3000/${selectedEmployee.picture}` : `https://robohash.org/${selectedEmployee.employerid}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
                             </div>
                         </div>
                         <div className="sm:col-span-1">
-                            <label htmlFor="email" className="block text-sm/6 font-semibold text-neutral-100">
+                            <label htmlFor="availability" className="block text-sm/6 font-semibold text-neutral-100">
                                 Availability
                             </label>
                             <div className="block w-full rounded-md px-3.5 py-2 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600">
@@ -108,16 +108,16 @@ const EmployeeInfo = () => {
                             </div>
                         </div>
                         <div className="col-span-1">
-                            <label htmlFor="photo" className="block text-sm/6 font-medium text-neutral-100">
+                            <label htmlFor="CV" className="block text-sm/6 font-medium text-neutral-100">
                                 CV
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">   
                                 <DocumentArrowDownIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                <button
-                                    type="button"
-                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">
+                                <a href={`http://localhost:3000/${selectedEmployee.cv}`} target="_blank" rel="noopener noreferrer" ><label
+                                    htmlFor="CV"
+                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 cursor-pointer">
                                         Download
-                                </button>
+                                </label></a>
                             </div>
                         </div>
                         <div className="sm:col-span-1">
@@ -144,10 +144,10 @@ const EmployeeInfo = () => {
                             disabled={userRole !== "Admin"}
                             className={`col-span-1 col-start-1 flex justify-center rounded-md px-3 py-3 text-base font-semibold text-white
                                         shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
-                                        ${userRole === "Admin" ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-400 cursor-not-allowed"}`}
+                                        ${userRole === "Admin" ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-400 cursor-not-allowed"} group/forTooltip`}
                         >
                             Edit
-                            <span className="absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 scale-0 rounded-md bg-gray-700 px-2 py-1 text-xs text-white transition-all group-hover:scale-100">
+                            <span className="absolute invisible left-1/2 mb-8 -mt-1 -translate-x-40 rounded-md bg-gray-700 px-3 py-1 text-s text-white group-hover/forTooltip:visible">
                                 Access Denied
                             </span>
                         </button>
@@ -159,10 +159,10 @@ const EmployeeInfo = () => {
                             disabled={userRole !== "Admin"}
                             className={`col-span-1 col-start-3 flex justify-center rounded-md px-3 py-3 text-base font-semibold text-white
                                         shadow-xs  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
-                                        ${userRole === "Admin" ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 cursor-not-allowed" }`}
+                                        ${userRole === "Admin" ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 cursor-not-allowed" } group/forTooltip`}
                         >
                             Delete
-                            <span className="absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 scale-0 rounded-md bg-gray-700 px-2 py-1 text-xs text-white transition-all group-hover:scale-100">
+                            <span className="absolute invisible left-1/2 mb-8 -mt-1 -translate-x-40 rounded-md bg-gray-700 px-3 py-1 text-s text-white group-hover/forTooltip:visible">
                                 Access Denied
                             </span>
                         </button>
