@@ -113,7 +113,7 @@ const EmployeeInfo = () => {
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">   
                                 <DocumentArrowDownIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                <a href={`http://localhost:3000/${selectedEmployee.cv}`} target="_blank" rel="noopener noreferrer" ><label
+                                <a href={`http://localhost:3000/${selectedEmployee.CV}`} target="_blank" rel="noopener noreferrer" ><label
                                     htmlFor="CV"
                                     className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 cursor-pointer">
                                         Download
@@ -147,9 +147,10 @@ const EmployeeInfo = () => {
                                         ${userRole === "Admin" ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-400 cursor-not-allowed"} group/forTooltip`}
                         >
                             Edit
-                            <span className="absolute invisible left-1/2 mb-8 -mt-1 -translate-x-40 rounded-md bg-gray-700 px-3 py-1 text-s text-white group-hover/forTooltip:visible">
+                            {userRole !== "Admin" && (
+                                <span className="absolute invisible left-1/2 mb-8 -mt-1 -translate-x-40 rounded-md bg-gray-700 px-3 py-1 text-s text-white group-hover/forTooltip:visible">
                                 Access Denied
-                            </span>
+                            </span>)}
                         </button>
                         <button
                             onClick={() => {
@@ -162,9 +163,10 @@ const EmployeeInfo = () => {
                                         ${userRole === "Admin" ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 cursor-not-allowed" } group/forTooltip`}
                         >
                             Delete
-                            <span className="absolute invisible left-1/2 mb-8 -mt-1 -translate-x-40 rounded-md bg-gray-700 px-3 py-1 text-s text-white group-hover/forTooltip:visible">
+                            {userRole !== "Admin" &&(
+                                <span className="absolute invisible left-1/2 mb-8 -mt-1 -translate-x-40 rounded-md bg-gray-700 px-3 py-1 text-s text-white group-hover/forTooltip:visible">
                                 Access Denied
-                            </span>
+                            </span>)}
                         </button>
                         <button
                             onClick={() => {

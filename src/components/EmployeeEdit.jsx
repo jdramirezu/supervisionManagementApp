@@ -5,9 +5,16 @@ import { UserCircleIcon,DocumentArrowUpIcon } from '@heroicons/react/24/solid';
 import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
 const EmployeeEdit = () =>{
-    const { selectedEmployee, updateEmployee, onEmployeeClick } = useEmployee();
+    const { selectedEmployee, updateEmployee, onEmployeeClick, userRole } = useEmployee();
     const [editedEmployee , setEditedEmployee] = useState(selectedEmployee);
+    let newPic = false;
+    let newCV = false;
     const navigate = useNavigate();
+
+    if(userRole !== "Admin"){
+        navigate('/employees');
+        setTimeout( () => onEmployeeClick(null), 1); 
+    }
 
     const handleChange = (event) =>{
         const { name, value, multiple, selectedOptions} = event.target;
@@ -17,6 +24,16 @@ const EmployeeEdit = () =>{
             setEditedEmployee({
                 ...editedEmployee,[name]:values
             });
+        } else if(name === "picture"){
+            setEditedEmployee({
+                ...editedEmployee, [name]: event.target.files[0]
+            });
+            newPic = true;
+        }else if (name === "CV"){
+            setEditedEmployee({
+                ...editedEmployee, [name]: event.target.files[0]
+            });
+            newCV = true;
         } else{
             setEditedEmployee({
                 ...editedEmployee,[name]:value})
@@ -24,8 +41,22 @@ const EmployeeEdit = () =>{
     }
 
     const handleSave = () =>{
+        if (!newPic){
+            setEditedEmployee({
+                ...editedEmployee, ["picture"]: ""
+            });
+        }
+        if (!newCV){
+            setEditedEmployee({
+                ...editedEmployee, ["CV"]: ""
+            });
+        }
+        
+        console.log("After the whole if mess: ",editedEmployee)
+
         updateEmployee(editedEmployee);
     }
+
 
     return(
         <>
@@ -178,17 +209,25 @@ const EmployeeEdit = () =>{
                             </div>
                         </div>
                             <div className="col-span-1">
-                                <label htmlFor="photo" className="block text-sm/6 font-medium text-neutral-100">
+                                <label htmlFor="picture" className="block text-sm/6 font-medium text-neutral-100">
                                     Photo
                                 </label>
                                 <div className="mt-2 flex items-center gap-x-3">
                                     <UserCircleIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50"
+                                    <label
+                                    htmlFor="picture"
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 cursor-pointer"
                                     >
                                         Upload
-                                    </button>
+                                    </label>
+                                    <input
+                                        type='file'
+                                        accept="image/*"
+                                        id='picture'
+                                        name='picture'
+                                        value={""}
+                                        hidden={true}
+                                        onChange={handleChange} />
                                 </div>
                             </div>
                             <div className="sm:col-span-1">
@@ -226,12 +265,20 @@ const EmployeeEdit = () =>{
                                 <div className="mt-2 flex items-center gap-x-3">
                                     
                                     <DocumentArrowUpIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50"
+                                    <label
+                                        htmlFor="CV"
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 cursor-pointer"
                                     >
                                         Upload
-                                    </button>
+                                    </label>
+                                    <input
+                                        type='file'
+                                        accept='application/pdf'
+                                        id='CV'
+                                        name='CV'
+                                        value={""}
+                                        hidden={true}
+                                        onChange={handleChange} />
                                 </div>
                             </div>
                             <div className="sm:col-span-1">
@@ -288,8 +335,8 @@ const EmployeeEdit = () =>{
                         </button>
                         <button
                             onClick={() => {
-                                onEmployeeClick(null)
                                 navigate('/employees');
+                                setTimeout( () => onEmployeeClick(null), 1); 
                             }}
                             type="button"
                             className="col-span-1 col-start-3 flex justify-center rounded-md bg-red-600 px-3 py-3 text-base font-semibold text-white shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
