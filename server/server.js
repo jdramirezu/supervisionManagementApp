@@ -12,10 +12,8 @@ const app = express();
 const smaDB = knex({
     client: 'pg',
     connection: {
-        host: "127.0.0.1",
-        user: "postgres",
-        password: process.env.JWT_DBPASSWORD,
-        database: "supervisionManagementApp"
+        connectionString: process.env.DATABASE_URL,
+        ssl: {rejectUnauthorized: false}
     }
 })
 
