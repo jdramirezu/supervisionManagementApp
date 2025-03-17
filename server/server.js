@@ -14,7 +14,7 @@ const smaDB = knex({
     connection: {
         host: "127.0.0.1",
         user: "postgres",
-        password: process.env.JWT_DBPASSWORD, //Change to environment variable
+        password: process.env.JWT_DBPASSWORD,
         database: "supervisionManagementApp"
     }
 })
@@ -45,7 +45,7 @@ const fileFilter = (req, file, cb) =>{
 const upload = multer({storage, fileFilter});
 
 app.get('/', (req,res) => {
-    res.send(usersDB);
+    res.send("Getting root");
 });
 
 app.post("/login",(req,res) =>{
