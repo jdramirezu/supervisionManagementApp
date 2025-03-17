@@ -35,7 +35,7 @@ export const EmployeeProvider = ({ children }) => {
             const decoded = JSON.parse(atob(token.split(".")[1]));
             setUserRole(decoded.role);
 
-            fetch("http://localhost:3000/profiles", {
+            fetch(`${import.meta.env.VITE_API_BASE_URL}/profiles`, {
                 headers: {"Authorization": `Bearer ${token}`}
             })
             .then(resp => resp.json())
@@ -76,25 +76,15 @@ export const EmployeeProvider = ({ children }) => {
             
         });
 
-        fetch(`http://localhost:3000/profile/${updatedEmpInfo.id}`,{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/profile/${updatedEmpInfo.id}`,{
             method: 'put',
             body: myFormData
         })
         .then(resp => {
             setRefresh(prev => !prev);
             resp.json();
-            // navigate("/employees");
         }).catch( err => console.log("Upload error:", err) );
 
-        // ----------------------------------------------------------- //
-        // fetch(`http://localhost:3000/profile/${updatedEmpInfo.id}`,{
-        //     method: 'put',
-        //     headers: {'Content-Type': 'application/json'},
-        //     body: JSON.stringify(updatedEmpInfo)
-        // }).then( resp =>{
-        //     setRefresh(prev => !prev);
-        //     resp.json();
-        // })
     }
 
     const onEmployeeClick = employee => {
@@ -102,7 +92,7 @@ export const EmployeeProvider = ({ children }) => {
         if(!employee){
             setSelectedEmployee(null);
         } else{
-            fetch(`http://localhost:3000/profile/${employee.id}`)
+            fetch(`${import.meta.env.VITE_API_BASE_URL}/profile/${employee.id}`)
             .then(resp => resp.json())
             .then(data =>{
                 setSelectedEmployee(data);
@@ -119,7 +109,7 @@ export const EmployeeProvider = ({ children }) => {
     }
 
     const onLoginSubmit = (navigate) =>{
-        fetch("http://localhost:3000/login",{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/login`,{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -164,7 +154,7 @@ export const EmployeeProvider = ({ children }) => {
             }
         });
 
-        fetch("http://localhost:3000/newCandidate",{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/newCandidate`,{
             method: 'post',
             body: myFormData
         })
@@ -197,7 +187,7 @@ export const EmployeeProvider = ({ children }) => {
 
     const deleteEmployee = employee =>{
         if(userRole === "Admin"){
-            fetch(`http://localhost:3000/profile/${employee.id}`,{
+            fetch(`${import.meta.env.VITE_API_BASE_URL}/profile/${employee.id}`,{
                 method: 'delete',
                 headers: {'Authorization': `Bearer ${token}`},
                 body: JSON.stringify(employee)
