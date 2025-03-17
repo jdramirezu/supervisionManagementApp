@@ -16,33 +16,9 @@ const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
                             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-neutral-100">
                                 {`DELETE ALL INFO FOR ${selectedEmployee.fullname}?`}
                             </h2>
-                            <label htmlFor="email" className="block text-base font-medium text-neutral-100 mt-5">Email</label>
-                            <div className="mt-2">
-                                <input 
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    required
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"    
-                                >
-                                </input>
-                            </div>
-                        
-                            <label htmlFor="password" className="block text-base font-medium text-neutral-100 mt-10">Password</label>
-                            <div className="mt-2">
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    required
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-neutral-100 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                >
-                                </input>
-                            </div>
                             <div className="mt-10">
                                 <button
                                     type="button"
-                                    disabled={userRole !== "Admin"}
                                     onClick={() => {
                                         deleteEmployee(selectedEmployee);
                                         onEmployeeClick(null);

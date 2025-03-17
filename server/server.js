@@ -57,7 +57,6 @@ app.post("/login",(req,res) =>{
             const payload = {id: data[0].id, role: data[0].role}
             const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'});
 
-            // res.json("success");
             res.json({token, role:data[0].role});
         } else {
             res.status(401).json("Invalid credentials");
@@ -77,7 +76,7 @@ app.post("/newCandidate", upload.fields([{ name: "picture"}, {name: "CV"}]), asy
     const {fullname, preferredname, email, employerid, phonenumber, status, workarea, contracttype, stage, observations} = req.body;
     const picturePath = req.files["picture"] ? req.files["picture"][0].path : null;
     const cvPath = req.files["CV"] ? req.files["CV"][0].path : null;
-    const availability = JSON.parse(req.body.availability || [])
+    const availability = JSON.parse(req.body.availability || []);
 
     smaDB("staff").insert({
         fullname: fullname,
@@ -89,7 +88,7 @@ app.post("/newCandidate", upload.fields([{ name: "picture"}, {name: "CV"}]), asy
         workarea: workarea,
         contracttype: contracttype,
         picture: picturePath,
-        cv: cvPath,
+        CV: cvPath,
         availability: availability,
         stage: stage,
         observations: observations
@@ -104,23 +103,20 @@ app.get("/profile/:id", (req, res) =>{
     });
 });
 
-app.put('/profile/:id', (req,res) =>{
+app.put('/profile/:id', upload.fields([{ name: "picture"}, {name: "CV"}]), (req,res) =>{
     const { id } = req.params;
-    const {fullname, preferredname, email, employerid, phonenumber, status, area, contracttype, stage, availability, observations} = req.body;
-    
-    smaDB.from('staff').where({id}).update({
-        fullname: fullname,
-        preferredname: preferredname,
-        email: email,
-        employerid: employerid,
-        phonenumber: phonenumber,
-        status: status,
-        workarea: area,
-        contracttype: contracttype,
-        stage: stage,
-        availability: availability,
-        observations: observations
-    }).then(data => res.json(data));
+    const updatedFields = req.body;
+    updatedFields["availability"] = JSON.parse(req.body.availability);
+
+    if(req.files["picture"]){
+        updatedFields.picture = req.files["picture"][0].path;
+    }
+    if (req.files["CV"]){
+        updatedFields.CV = req.files["CV"][0].path;
+    }
+
+    smaDB.from('staff').where({id}).update(updatedFields)
+    .then(data => res.json(data));
 });
 
 app.delete('/profile/:id', (req,res) =>{

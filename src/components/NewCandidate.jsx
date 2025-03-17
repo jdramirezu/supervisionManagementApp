@@ -6,7 +6,11 @@ import { useEmployee } from '../contexts/EmployeeContext';
 
 const NewCandidate = () => {
     const navigate = useNavigate();
-    const { onCandidateSave, onDataChange, newCandidateData, setPicture, setCV } = useEmployee();
+    const { onCandidateSave, onDataChange, newCandidateData, userRole } = useEmployee();
+
+    if(userRole !== "Admin"){
+        navigate('/employees');
+    }
 
     return(
         <>
@@ -178,6 +182,9 @@ const NewCandidate = () => {
                                         Upload
                                     </label>
                                     <input type='file' accept="image/*" id='picture' name='picture' hidden={true} onChange={onDataChange} />
+                                    {newCandidateData.picture && (<label htmlFor="picture" className="block text-sm/6 font-medium text-neutral-100">
+                                    {newCandidateData.picture.name}
+                                    </label>)}
                                 </div>
                             </div>
                             <div className="sm:col-span-1">
@@ -221,6 +228,9 @@ const NewCandidate = () => {
                                         Upload
                                     </label>
                                     <input type='file' accept='application/pdf' id='CV' name='CV' hidden={true} onChange={onDataChange} />
+                                    {newCandidateData.CV && (<label htmlFor="CV" className="block text-sm/6 font-medium text-neutral-100">
+                                    {newCandidateData.CV.name}
+                                    </label>)}
                                 </div>
                             </div>
                             <div className="sm:col-span-1">
