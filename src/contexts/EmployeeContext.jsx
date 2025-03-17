@@ -19,20 +19,33 @@ export const EmployeeProvider = ({ children }) => {
         status: "",
         workarea: "",
         contracttype: "",
-        stage: "",
+        picture: null,
+        CV: null,
         availability: "",
+        stage: "",
         observations: ""
     });
     const [area, setArea] = useState("");
+    const [token, setToken] = useState(localStorage.getItem("token") || null);
+    const [userRole, setUserRole] = useState(null);
+    const [picture, setPicture] = useState(null);
+    const [cv, setCV] = useState(null);
 
     useEffect (() =>{
-        fetch("http://localhost:3000/profiles")
-        .then(resp => resp.json())
-        .then(info => {
-          setEmployees(info);
-        })
-        .catch(err => console.log("Error fetching employees in front: ", err));
-    },[refresh]);
+        if(token){
+            fetch("http://localhost:3000/profiles", {
+                headers: {"Authorization": `Bearer ${token}`}
+            })
+            .then(resp => resp.json())
+            .then(info => {
+            setEmployees(info);
+            })
+            .catch(err => console.log("Error fetching employees in front: ", err));
+
+            console.log("refresh",refresh);
+            console.log("userRole",userRole);
+        }
+    },[refresh, token, userRole]);
 
     const onSearchInfo = event =>{
         setSearchField(event.target.value);
@@ -92,41 +105,67 @@ export const EmployeeProvider = ({ children }) => {
         })
         .then(resp => resp.json())
         .then(data =>{
-            if(data != "success"){
+            if(!data.token){
                 throw new Error ("WRONG CREDENTIALS");
+            } else {
+                localStorage.setItem("token", data.token);
+                setToken(data.token);
+                
+                const decoded = JSON.parse(atob(data.token.split(".")[1]));
+                setUserRole(decoded.role);
+                
+
             }
             navigate("/employees");
 
-            // if(data === "success"){
-            //     navigate("/employees");
-            // } 
         }).catch(err =>{
             setErrorMessage(err.message);
         })
     }
 
+    const onExit = () =>{
+        localStorage.removeItem("token");
+        setToken(null);
+        setUserRole(null);
+    }
+
     const onCandidateSave = (navigate, newCandidateData) =>{
+        const myFormData = new FormData();
+
+        Object.keys(newCandidateData).forEach(key =>{
+            if (key === "availability"){
+                myFormData.append(key, JSON.stringify(newCandidateData.availability));
+            } else {
+                myFormData.append(key, newCandidateData[key]);
+            }
+        });
+
         fetch("http://localhost:3000/newCandidate",{
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(newCandidateData)
+            // headers: {'Content-Type': 'application/json'},
+            // body: JSON.stringify(newCandidateData)
+            body: myFormData
         })
         .then(resp => {
             setRefresh(prev => !prev);
             resp.json();
             navigate("/employees");
-        })
+        }).catch( err => console.log("Upload error:", err) );
     }
 
-    const onDataChange = (event) =>{
-        const {multiple, selectedOptions}=event.target;
+    const onDataChange = (event) =>{ // added a new condition to handle files
+        const {multiple, selectedOptions, id}=event.target;
 
         if(multiple){
             const values = Array.from(selectedOptions, option => option.value);
             setNewCandidateData({
                 ...newCandidateData,[event.target.name]:values
             });
-        } else{
+        } else if(id === 'picture' || id === 'CV'){
+            setNewCandidateData({
+                ...newCandidateData, [event.target.name]: event.target.files[0]
+            });
+        } else {
             setNewCandidateData({
                 ...newCandidateData, [event.target.name]:event.target.value
             });
@@ -134,14 +173,18 @@ export const EmployeeProvider = ({ children }) => {
     }
 
     const deleteEmployee = employee =>{
-        fetch(`http://localhost:3000/profile/${employee.id}`,{
-            method: 'delete',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(employee)
-        }).then( resp =>{
-            setRefresh(prev => !prev);
-            resp.json();
-        })
+        if(userRole === "admin"){
+            fetch(`http://localhost:3000/profile/${employee.id}`,{
+                method: 'delete',
+                headers: {'Authorization': `Bearer ${token}`},
+                body: JSON.stringify(employee)
+            }).then( resp =>{
+                setRefresh(prev => !prev);
+                resp.json();
+            }).catch(err => {
+                setErrorMessage(err.message);
+            })
+        }
     }
 
     return (
@@ -153,6 +196,8 @@ export const EmployeeProvider = ({ children }) => {
                 errorMessage,
                 filteredStaff,
                 area,
+                token,
+                userRole,
                 onEmployeeClick,
                 setSelectedEmployee,
                 updateEmployee,
@@ -164,6 +209,9 @@ export const EmployeeProvider = ({ children }) => {
                 deleteEmployee,
                 onSearchInfo,
                 onAreaChange,
+                onExit,
+                setCV,
+                setPicture
             }}>
             {children}
         </EmployeeContext.Provider>

@@ -6,7 +6,7 @@ import { useEmployee } from '../contexts/EmployeeContext';
 
 const NewCandidate = () => {
     const navigate = useNavigate();
-    const { onCandidateSave, onDataChange, newCandidateData } = useEmployee();
+    const { onCandidateSave, onDataChange, newCandidateData, setPicture, setCV } = useEmployee();
 
     return(
         <>
@@ -162,17 +162,22 @@ const NewCandidate = () => {
                             </div>
                         </div>
                             <div className="col-span-1">
-                                <label htmlFor="photo" className="block text-sm/6 font-medium text-neutral-100">
+                                <label
+                                    htmlFor="picture" 
+                                    className="block text-sm/6 font-medium text-neutral-100"
+                                    onChange={onDataChange}
+                                >
                                     Photo
                                 </label>
                                 <div className="mt-2 flex items-center gap-x-3">
                                     <UserCircleIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50"
+                                    <label
+                                        htmlFor='picture'
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-200 cursor-pointer"
                                     >
                                         Upload
-                                    </button>
+                                    </label>
+                                    <input type='file' accept="image/*" id='picture' name='picture' hidden={true} onChange={onDataChange} />
                                 </div>
                             </div>
                             <div className="sm:col-span-1">
@@ -203,18 +208,19 @@ const NewCandidate = () => {
                                 </div>
                             </div>
                             <div className="col-span-1">
-                                <label htmlFor="cv" className="block text-sm/6 font-medium text-neutral-100">
+                                <label htmlFor="CV" className="block text-sm/6 font-medium text-neutral-100">
                                     CV
                                 </label>
                                 <div className="mt-2 flex items-center gap-x-3">
                                     
                                     <DocumentArrowUpIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50"
+                                    <label
+                                        htmlFor='CV'
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-200 cursor-pointer"
                                     >
                                         Upload
-                                    </button>
+                                    </label>
+                                    <input type='file' accept='application/pdf' id='CV' name='CV' hidden={true} onChange={onDataChange} />
                                 </div>
                             </div>
                             <div className="sm:col-span-1">
@@ -267,7 +273,7 @@ const NewCandidate = () => {
                                 !newCandidateData.stage ||
                                 !newCandidateData.contracttype
                             }
-                            className={`col-span-1 col-start-1 rounded-md ${!newCandidateData.workarea || !newCandidateData.status || !newCandidateData.stage || !newCandidateData.contracttype ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600"} px-3 py-3 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                            className={`col-span-1 col-start-1 rounded-md ${!newCandidateData.workarea || !newCandidateData.status || !newCandidateData.stage || !newCandidateData.contracttype ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"} px-3 py-3 text-center text-base font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                         >
                             Save
                         </button>

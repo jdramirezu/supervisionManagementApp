@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEmployee } from "../contexts/EmployeeContext.jsx";
 
 const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
-    const { selectedEmployee, onEmployeeClick, deleteEmployee } = useEmployee();
+    const { selectedEmployee, onEmployeeClick, deleteEmployee, userRole } = useEmployee();
     const navigate = useNavigate();
 
     if (!isOpen) return null;
@@ -42,6 +42,7 @@ const DeleteConfirmation = ({isOpen, onClose, onConfirm}) =>{
                             <div className="mt-10">
                                 <button
                                     type="button"
+                                    disabled={userRole !== "Admin"}
                                     onClick={() => {
                                         deleteEmployee(selectedEmployee);
                                         onEmployeeClick(null);

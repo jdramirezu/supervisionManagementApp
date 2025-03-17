@@ -2,6 +2,10 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const cors  = require('cors');
 const knex = require('knex');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const multer = require("multer");
+const path = require("path");
 
 const app = express();
 
@@ -10,7 +14,7 @@ const smaDB = knex({
     connection: {
         host: "127.0.0.1",
         user: "postgres",
-        password: "", //Change to environment variable
+        password: process.env.JWT_DBPASSWORD, //Change to environment variable
         database: "supervisionManagementApp"
     }
 })
@@ -18,6 +22,27 @@ const smaDB = knex({
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+});
+
+const fileFilter = (req, file, cb) =>{
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "application/pdf"];
+    if(allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error("Invalid file type."), false);
+    }
+}
+
+const upload = multer({storage, fileFilter});
 
 app.get('/', (req,res) => {
     res.send(usersDB);
@@ -28,7 +53,12 @@ app.post("/login",(req,res) =>{
     smaDB.select('*').from('users').where({email})
     .then(data =>{
         if(bcrypt.compareSync(password, data[0].passwordhash)){
-            res.json("success");
+            
+            const payload = {id: data[0].id, role: data[0].role}
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'});
+
+            // res.json("success");
+            res.json({token, role:data[0].role});
         } else {
             res.status(401).json("Invalid credentials");
         }
@@ -38,14 +68,17 @@ app.post("/login",(req,res) =>{
 });
 
 app.get("/profiles", (req, res) =>{
-    smaDB.select("*").from("staff").then(data =>{
+    smaDB.select("*").from("staff").orderBy('id', 'asc').then(data =>{
         res.json(data);
     });
 });
 
-app.post("/newCandidate", (req,res) =>{
-    const {fullname, preferredname, email, employerid, phonenumber, status, workarea, contracttype, stage, availability, observations} = req.body;
-    
+app.post("/newCandidate", upload.fields([{ name: "picture"}, {name: "CV"}]), async (req,res) =>{
+    const {fullname, preferredname, email, employerid, phonenumber, status, workarea, contracttype, stage, observations} = req.body;
+    const picturePath = req.files["picture"] ? req.files["picture"][0].path : null;
+    const cvPath = req.files["CV"] ? req.files["CV"][0].path : null;
+    const availability = JSON.parse(req.body.availability || [])
+
     smaDB("staff").insert({
         fullname: fullname,
         preferredname: preferredname,
@@ -55,10 +88,13 @@ app.post("/newCandidate", (req,res) =>{
         status: status,
         workarea: workarea,
         contracttype: contracttype,
-        stage: stage,
+        picture: picturePath,
+        cv: cvPath,
         availability: availability,
+        stage: stage,
         observations: observations
-    }).then(data => res.json(data));
+    }).then(data => res.json(data))
+    .catch( err => res.status(500).json(err));
 })
 
 app.get("/profile/:id", (req, res) =>{
