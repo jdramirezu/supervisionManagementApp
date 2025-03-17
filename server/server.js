@@ -5,6 +5,8 @@ const knex = require('knex');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const {CloudinaryStorage} = require("multer-storage-cloudinary");
 const path = require("path");
 
 const app = express();
@@ -17,30 +19,44 @@ const smaDB = knex({
     }
 })
 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params:{
+        folder: "candidate_files",
+        allowed_formats: ['jpg', 'jpeg', 'png', 'pdf']
+    }
+});
+
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname))
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, "uploads/");
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + path.extname(file.originalname))
+//     }
+// });
 
-const fileFilter = (req, file, cb) =>{
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "application/pdf"];
-    if(allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error("Invalid file type."), false);
-    }
-}
+// const fileFilter = (req, file, cb) =>{
+//     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "application/pdf"];
+//     if(allowedTypes.includes(file.mimetype)) {
+//         cb(null, true);
+//     } else {
+//         cb(new Error("Invalid file type."), false);
+//     }
+// }
 
-const upload = multer({storage, fileFilter});
+const upload = multer({storage});
 
 app.get('/', (req,res) => {
     res.send("Getting root");
