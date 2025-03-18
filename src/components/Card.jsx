@@ -14,7 +14,7 @@ const Card = ({ employee }) =>{
                 <div className="grid justify-items-center bg-slate-600 rounded-xl py-12 lg:px-8 sm:mx-auto sm:w-full sm:max-w-md">
                     {
                         employee.picture ?
-                            <img src={`http://localhost:3000/${employee.picture}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
+                            <img src={`${import.meta.env.VITE_API_BASE_URL}/${employee.picture}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
                             :
                             <img src={`https://robohash.org/${employee.id}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
                     }

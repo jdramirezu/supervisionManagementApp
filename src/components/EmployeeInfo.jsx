@@ -88,7 +88,7 @@ const EmployeeInfo = () => {
                                 Photo
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
-                                <img src={selectedEmployee.picture ? `http://localhost:3000/${selectedEmployee.picture}` : `https://robohash.org/${selectedEmployee.employerid}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
+                                <img src={selectedEmployee.picture ? `${import.meta.env.VITE_API_BASE_URL}/${selectedEmployee.picture}` : `https://robohash.org/${selectedEmployee.id}?200x200`} alt="Employee's name" className="size-40 rounded-full bg-white"/>
                             </div>
                         </div>
                         <div className="sm:col-span-1">
@@ -113,7 +113,7 @@ const EmployeeInfo = () => {
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">   
                                 <DocumentArrowDownIcon aria-hidden="true" className="size-12 text-gray-300" />
-                                <a href={`http://localhost:3000/${selectedEmployee.CV}`} target="_blank" rel="noopener noreferrer" ><label
+                                <a href={`${import.meta.env.VITE_API_BASE_URL}/${selectedEmployee.CV}`} target="_blank" rel="noopener noreferrer" ><label
                                     htmlFor="CV"
                                     className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 cursor-pointer">
                                         Download
