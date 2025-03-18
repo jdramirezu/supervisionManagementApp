@@ -36,7 +36,7 @@ const storage = new CloudinaryStorage({
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
-// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
