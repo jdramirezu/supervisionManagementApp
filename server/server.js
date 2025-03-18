@@ -36,7 +36,7 @@ const storage = new CloudinaryStorage({
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -91,6 +91,8 @@ app.post("/newCandidate", upload.fields([{ name: "picture"}, {name: "CV"}]), asy
     const picturePath = req.files["picture"] ? req.files["picture"][0].path : null;
     const cvPath = req.files["CV"] ? req.files["CV"][0].path : null;
     const availability = JSON.parse(req.body.availability || []);
+
+    console.log(req.files);
 
     smaDB("staff").insert({
         fullname: fullname,

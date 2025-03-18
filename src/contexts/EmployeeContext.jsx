@@ -154,6 +154,10 @@ export const EmployeeProvider = ({ children }) => {
             }
         });
 
+        for (let pair of myFormData.entries()){
+            console.log(pair[0], pair[1]);
+        }
+
         fetch(`${import.meta.env.VITE_API_BASE_URL}/newCandidate`,{
             method: 'post',
             body: myFormData
