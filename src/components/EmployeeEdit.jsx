@@ -51,8 +51,6 @@ const EmployeeEdit = () =>{
                 ...editedEmployee, ["CV"]: ""
             });
         }
-        
-        console.log("After the whole if mess: ",editedEmployee)
 
         updateEmployee(editedEmployee);
     }

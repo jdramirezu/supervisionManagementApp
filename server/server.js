@@ -71,11 +71,9 @@ app.get("/profiles", (req, res) =>{
 
 app.post("/newCandidate", upload.fields([{ name: "picture"}, {name: "CV"}]), async (req,res) =>{
     const {fullname, preferredname, email, employerid, phonenumber, status, workarea, contracttype, stage, observations} = req.body;
-    const picturePath = req.files["picture"] ? req.files["picture"][0].path : null;
-    const cvPath = req.files["CV"] ? req.files["CV"][0].path : null;
+    const picturePath = req.files["picture"] ? req.files["picture"][0].path : "";
+    const cvPath = req.files["CV"] ? req.files["CV"][0].path : "";
     const availability = JSON.parse(req.body.availability || []);
-
-    console.log(req.files);
 
     smaDB("staff").insert({
         fullname: fullname,
