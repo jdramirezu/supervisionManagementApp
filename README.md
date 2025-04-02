@@ -15,7 +15,7 @@ Password: bananas
 
 Keep in mind that these credentials will give you access only as a viewer, so editing options are not available. For admin credentials, please contact me or install the app locally.
 
-##🛠 Tech Stack
+## 🛠 Tech Stack
 
 Frontend: React (Vite), Tailwind CSS
 
