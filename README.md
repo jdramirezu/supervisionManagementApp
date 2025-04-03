@@ -94,6 +94,10 @@ DELETE /profile/:id - Delete profile (Admin only)
 
 ## 📸 Screenshots / Video (Coming soon)
 
+![Login](screenshots/loginScreen.jpg)
+![Dashboard](screenshots/staffScreen.jpg)
+![Profile](screenshots/profileScreen.jpg)
+![Editing Staff](screenshots/editingScreen.jpg)
 
 
 ## 🤝 Contributing
