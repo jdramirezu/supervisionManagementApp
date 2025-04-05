@@ -10,7 +10,7 @@ Go to the following link and use these credentials to view the live app:
 
 https://supervision-management-app.vercel.app/
 
-Email: viewer@example.com
+Email: demo@example.com
 Password: bananas
 
 Keep in mind that these credentials will give you access only as a viewer, so editing options are not available. For admin credentials, please contact me or install the app locally.
